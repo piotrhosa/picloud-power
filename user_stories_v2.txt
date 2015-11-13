@@ -1,0 +1,53 @@
+--As an admin 
+I want to see real-time data for the power consumption of the whole tower
+So that I can identify the total power consumption
+
+--As an admin
+I want to see real-time data for the power consumption for selected nodes (as many as possible)
+So that I can determine what the power consumption is in various states (idle etc)
+
+--As an admin
+I want to see real-time CPU temperatures in my cluster in a graph
+So that I know how they compare with power consumption (on the same graph)
+
+--As an admin 
+I want to see real-time CPU loads in my cluster in a graph
+So that I know how they compare with power consumption (on the same graph)
+
+--As an admin
+I want to be able to change the power, temperature and load sampling frequency
+So that I can instantaneously have an overview of the data as well as a closer look whenever I want to
+
+--As an admin
+I want to see a real-time diagram representation of the cluster (power, temp, load) with color coding indicating faults or extreme conditions (such as high temperature)
+So that I have a good overview and can identify which nodes exhibit abnormal behavior
+
+--As an admin
+I want to see an alert queue that is separate from any other diagram and displays an alert when I need to take action (maybe email alert as well)
+So that I have a clear indication when I need to respond quickly
+
+--As an admin 
+I want to be able to turn off or reboot nodes from the GUI
+So that I have an easy way of dealing with non-responsive nodes
+
+As an admin
+I want to be able to see pods running on each node in real time
+So I have a better understanding for the level of the node's power consumption
+
+--As an admin
+I want to be able to access log files for power usage (csv)
+So that I can safely store data and analyze it later
+
+--As an admin
+I want to be able to access the GUI from any browser
+So that I can view the cluster state from any machine
+
+--As an admin 
+I want to be able to see the status of the power measurement board
+So that I know whether it is providing measurements for the API
+
+As an admin
+I want to receive data (power, temperature and load) instantaneously
+So that the graphs update smoothly
+
+
