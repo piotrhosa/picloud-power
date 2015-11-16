@@ -1,4 +1,4 @@
-# API
+# REQUIREMENTS
 
 ## Must have
 1. Real-time graph in the main page that shows power, temperature and load for the whole cluster
@@ -8,8 +8,8 @@
 5. CSV storage that keeps all the records and makes them available for later
 6. Cross-browser compatibility for the 3 most common browsers (Chrome, Firefox, IE)
 7. Compatibility with Arch for the API
-8. Responsiveness??
-9. Authentiction?? 
+8. TODO Responsiveness
+9. TODO Authentication 
 
 ## Should have
 1. All graphs should have an option to toggle between viewing power, temperature and load, some of them, or all of them.

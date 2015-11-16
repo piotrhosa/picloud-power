@@ -1,4 +1,4 @@
 angular.module('d3', [])
-.factory('d3Service', [function(){
+.service('d3Service', [function(){
 
 }]);

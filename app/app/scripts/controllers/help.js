@@ -1,4 +1,4 @@
 angular.module('app')
-.controller('HelpCtrl', function () {
+.controller('HelpCtrl', [function () {
 
-});
+}]);

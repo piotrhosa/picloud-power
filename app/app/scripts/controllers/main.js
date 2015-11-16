@@ -8,10 +8,6 @@
 * Controller of the appApp
 */
 angular.module('app')
-.controller('MainCtrl', function () {
-    this.awesomeThings = [
-        'HTML5 Boilerplate',
-        'AngularJS',
-        'Karma'
-    ];
-});
+.controller('MainCtrl', [function () {
+
+}]);
