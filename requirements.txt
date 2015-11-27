@@ -2,4 +2,4 @@ Flask==0.10.1
 Flask-RESTful==0.3.4
 Flask-SQLAlchemy==2.1
 SQLAlchemy==1.0.9
-
+Flask-Restless==0.17.0
