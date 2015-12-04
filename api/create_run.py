@@ -1,12 +1,14 @@
 import flask
 import flask.ext.sqlalchemy
 import flask.ext.restless
+from flask.ext.cors import CORS
 
 # Create the Flask application and the Flask-SQLAlchemy object.
 app = flask.Flask(__name__)
 app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////shared/picloud-power/api/data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/piotr/Desktop/FYP/power/picloud-power/api/data1.db'
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
+CORS(app)
 
 class PowerSample(db.Model):
     __tablename__ = 'powersample'

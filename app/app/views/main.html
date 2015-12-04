@@ -1,5 +1,28 @@
-<div>
-Here is space for a D3 graph.</br>
+<div class="container" ng-app="app">
 
-Here is space for the tower graph.
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Target board</th>
+                <th>Energy</th>
+                <th>Time</th>
+                <th>Power</th>
+                <th>Peak power</th>
+                <th>Peak current</th>
+                <th>Peak voltage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="s in samples">
+                <td>{{ s.target_id }}</td>
+                <td>{{ s.energy }}</td>
+                <td>{{ s.time }}</td>
+                <td>{{ s.power }}</td>
+                <td>{{ s.peak_power }}</td>
+                <td>{{ s.peak_current }}</td>
+                <td>{{ s.peak_voltage }}</td>
+            </tr>
+        </tbody>
+    </table>
+
 </div>
