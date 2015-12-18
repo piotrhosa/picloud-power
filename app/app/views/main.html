@@ -1,5 +1,12 @@
 <div class="container" ng-app="app">
 
+    <div class="form-inline">
+	<label>Source:  </label>
+        <label class="radio-inline" ng-repeat="selection in selections" for="{{selection}}">
+            <input ng-model="selected.sel" ng-value="selection" type="radio" name="optradio">{{selection}}</label>
+        </label>
+    </div>
+    {{selected.toLowerCase()}}
     <table class="table">
         <thead>
             <tr>
@@ -13,14 +20,14 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="s in samples">
+            <tr ng-repeat="s in samples" ng-if="s.target_id == selected.sel.toLowerCase()">
                 <td>{{ s.target_id }}</td>
-                <td>{{ s.energy }}</td>
-                <td>{{ s.time }}</td>
-                <td>{{ s.power }}</td>
-                <td>{{ s.peak_power }}</td>
-                <td>{{ s.peak_current }}</td>
-                <td>{{ s.peak_voltage }}</td>
+                <td>{{ s.energy | number:5 }}</td>
+                <td>{{ s.time | number:5 }}</td>
+                <td>{{ s.power | number:5 }}</td>
+                <td>{{ s.peak_power | number:5 }}</td>
+                <td>{{ s.peak_current | number:5 }}</td>
+                <td>{{ s.peak_voltage | number:5 }}</td>
             </tr>
         </tbody>
     </table>

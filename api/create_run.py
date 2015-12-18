@@ -6,7 +6,7 @@ from flask.ext.cors import CORS
 # Create the Flask application and the Flask-SQLAlchemy object.
 app = flask.Flask(__name__)
 app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/piotr/Desktop/FYP/power/picloud-power/api/data1.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/pi/data1.db'
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
 CORS(app)
 
