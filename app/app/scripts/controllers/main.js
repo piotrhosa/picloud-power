@@ -8,8 +8,6 @@
 * Controller of the appApp
 */
 
-//app = angular.module('app',[]);
-
 angular.module('app')
 .controller('MainCtrl', ['$scope', '$http', '$interval', function ($scope, $http, $interval) {
 
@@ -19,7 +17,10 @@ angular.module('app')
     $scope.selections = ['Cluster', 'Master', 'Minion'];
     $scope.selected = {'sel':'Cluster'};
     var rate_int = 0.0;
-    var data = {};
+
+    $scope.series = ['Cluster', 'Master', 'Minion'];
+    $scope.labels = ['A', 'B', 'C'];
+    $scope.data = [[1, 4,2], [3, 4, 1]];
 
     $scope.samples = [
         {
@@ -35,7 +36,7 @@ angular.module('app')
 
     $scope.changeRate = function() {
         $scope.rate_int = parseFloat(1.0 / parseFloat($scope.selected_rate.sel));
-        data = {"rate":rate_int}
+        var data = {"rate":rate_int}
         $http.post("http://raspberrypi:5000/api/config", data)
         .then(function (response) {
             console.log(response);
@@ -55,19 +56,23 @@ angular.module('app')
         $http.get("http://raspberrypi:5000/api/powersample")
         .then(function (response) {
             $scope.samples = response.data.objects;
-            console.log($scope.samples.length);
-            console.log("Received response.");
+
+            console.log($scope.samples);
         }, function(response) {
             console.log("Error calling API");
         });
     }
 
-    $scope.labels = []; //Time here
-    $scope.series = ['Cluster', 'Master', 'Minion'];
-    $scope.data = [
-        [65, 59, 80, 81, 56, 55, 40],
-        [28, 48, 40, 19, 86, 27, 90]
-    ];
+    function extractData(samples) {
+        for(var i = 0; i < samples.length; ++i) {
+            if(samples[i].targetId === "Cluster") {
+
+            }
+            else {
+                console.log("not found");
+            }
+        }
+    }
 
     $scope.onClick = function (points, evt) {
         console.log(points, evt);
