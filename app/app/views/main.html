@@ -1,15 +1,24 @@
 <div class="container" ng-app="app">
 
     <div class="form-inline">
-	<label>Source:  </label>
+        <label>Source:  </label>
         <label class="radio-inline" ng-repeat="selection in selections" for="{{selection}}">
             <input ng-model="selected.sel" ng-value="selection" type="radio" name="optradio">{{selection}}</label>
         </label>
     </div>
     {{selected.toLowerCase()}}
+
+    <div class="form-inline">
+        <label>Rate:  </label>
+        <label class="radio-inline" ng-repeat="rate in rates" for="{{rate}}">
+            <input ng-model="selected_rate.sel" ng-value="rate" type="radio" name="optradio" ng-change="changeRate()">{{rate}}</label>
+        </label>
+    </div>
+
     <table class="table">
         <thead>
             <tr>
+                <th>Id</th>
                 <th>Target board</th>
                 <th>Energy</th>
                 <th>Time</th>
@@ -21,10 +30,11 @@
         </thead>
         <tbody>
             <tr ng-repeat="s in samples" ng-if="s.target_id == selected.sel.toLowerCase()">
+                <td>{{ s.id }}</td>
                 <td>{{ s.target_id }}</td>
                 <td>{{ s.energy | number:5 }}</td>
                 <td>{{ s.time | number:5 }}</td>
-                <td>{{ s.power | number:5 }}</td>
+                <td>{{ s.avg_power | number:5 }}</td>
                 <td>{{ s.peak_power | number:5 }}</td>
                 <td>{{ s.peak_current | number:5 }}</td>
                 <td>{{ s.peak_voltage | number:5 }}</td>
@@ -32,4 +42,9 @@
         </tbody>
     </table>
 
+    <div ng-show="true">
+        <canvas id="live-samples" class="chart chart-line" data="data" labels="labels" series="series">
+        </canvas>
+        {{data}};
+    </div>
 </div>
