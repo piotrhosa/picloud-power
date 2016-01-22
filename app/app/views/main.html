@@ -1,5 +1,9 @@
 <div class="container" ng-app="app">
 
+    <button type="button" ng-click="run = !run" class="btn btn-primary">{{buttonValue}}</button>
+
+    <nvd3 options="options" data="data"></nvd3>
+
     <div class="form-inline">
         <label>Source:  </label>
         <label class="radio-inline" ng-repeat="selection in selections" for="{{selection}}">
@@ -41,10 +45,4 @@
             </tr>
         </tbody>
     </table>
-
-    <div class="container">
-        <canvas id="line" class="chart chart-line" chart-data="data"
-        chart-labels="labels" chart-legend="true" chart-series="series"
-        chart-click="onClick" ></canvas>
-    </div>
 </div>

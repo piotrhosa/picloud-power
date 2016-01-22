@@ -18,9 +18,41 @@ angular.module('app')
     $scope.selected = {'sel':'Cluster'};
     var rate_int = 0.0;
 
-    $scope.series = ['Cluster', 'Master', 'Minion'];
-    $scope.labels = ['A', 'B', 'C'];
-    $scope.data = [[1, 4,2], [3, 4, 1]];
+    $scope.options = {
+        chart: {
+            type: 'lineChart',
+            height: 400,
+            margin : {
+                top: 20,
+                right: 20,
+                bottom: 40,
+                left: 70
+            },
+            x: function(d){ return d.timestamp; },
+            y: function(d){ return d.avg_voltage; },
+            useInteractiveGuideline: true,
+            duration: 0,
+            xAxis: {
+                axisLabel: 'Time (ms)'
+            },
+            yAxis: {
+                axisLabel: 'Voltage (v)',
+                tickFormat: function(d){
+                    return d3.format('.01f')(d);
+                }
+            }
+        }
+    };
+
+    $scope.data = [{values: [], key: 'Cluster'},
+                    {values: [], key: 'Master'},
+                    {values: [], key: 'Minion'}];
+
+    $scope.run = true;
+
+    $scope.$watch('run', function(newValue, oldValue) {
+        $scope.buttonValue = $scope.run === true ? "Freeze" : "Run";
+    });
 
     $scope.samples = [
         {
@@ -56,22 +88,35 @@ angular.module('app')
         $http.get("http://raspberrypi:5000/api/powersample")
         .then(function (response) {
             $scope.samples = response.data.objects;
-
-            console.log($scope.samples);
+            extractData($scope.samples);
         }, function(response) {
             console.log("Error calling API");
         });
     }
 
+    var more = 0;
+
     function extractData(samples) {
         for(var i = 0; i < samples.length; ++i) {
-            if(samples[i].targetId === "Cluster") {
-
-            }
-            else {
-                console.log("not found");
+            var current = samples[i];
+            current.timestamp = current.timestamp + more;
+            switch(current.target_id) {
+                case "cluster":
+                $scope.data[0].values.push(current);
+                break;
+                case "master":
+                $scope.data[1].values.push(current);
+                break;
+                case "minion":
+                $scope.data[2].values.push(current);
+                break;
+                default:
+                console.error("Sample not recognized.");
             }
         }
+        $scope.data[0].values.sort(function(a, b) {return parseFloat(a.timestamp) - parseFloat(b.timestamp);});
+        console.log("Pushed some new ", more);
+        more = more + 100000;
     }
 
     $scope.onClick = function (points, evt) {
