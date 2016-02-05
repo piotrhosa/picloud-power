@@ -30,6 +30,14 @@ class PowerSample(db.Model):
     avg_current = db.Column(db.Float)
     avg_voltage = db.Column(db.Float)
 
+class CpuSample(db.Model):
+    __tablename__ = 'cpusample'
+    id = db.Column(db.Unicode, primary_key=True)
+    timestamp = db.Column(db.Float)
+    target_id = db.Column(db.String)
+    cpu_load = db.Column(db.Float)
+    temperature = db.Column(db.Float)
+
 class Config(db.Model):
     __tablename__ = 'config'
     id = db.Column(db.Unicode, primary_key=True)
@@ -49,8 +57,9 @@ manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 # Create API endpoints, which will be available at /api/<tablename> by
 # default. Allowed HTTP methods can be specified as well.
 blueprint = manager.create_api(PowerSample, methods=['GET', 'POST', 'DELETE'])
+manager.create_api(CpuSample, methods=['GET', 'POST'])
 manager.create_api(Test, methods=['GET', 'POST', 'DELETE'])
-manager.create_api(Config, methods=['GET', 'POST'])
+manager.create_api(Config, methods=['GET', 'POST', 'PUT'])
 
 #blueprint.after_request(add_cors_headers)
 

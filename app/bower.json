@@ -11,12 +11,11 @@
     "angular-sanitize": "^1.4.0",
     "angular-touch": "^1.4.0",
     "d3": "~3.5.8",
-    "angular-chart.js": "~0.8.8",
-    "Chart.js": "chartjs#~1.0.2",
     "n3-line-chart": "~2.0.3",
     "angular-nvd3": "~1.0.5",
-    "underscore": "~1.8.3",
-    "angular-underscore-module": "~1.0.3"
+    "angular-ui-bootstrap": "~1.1.2",
+    "font-awesome": "fontawesome#~4.5.0",
+    "angular-bootstrap": "~1.1.2"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"
