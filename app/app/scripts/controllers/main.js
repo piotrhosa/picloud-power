@@ -126,7 +126,31 @@ angular.module('app').controller('HeatmapCtrl', function($scope){
 
         $scope.userEmail = null;
 
+        $scope.mode = "power";
+        $scope.target = "all";
+
+        $scope.powerSource = false;
+        $scope.cpuSource = false;
+
+        $scope.$watch("startTime", function(newValue, oldValue) {
+            $scope.timestampStart = newValue.getTime();
+        });
+
+        $scope.$watch("finishTime", function(newValue, oldValue) {
+            $scope.timestampFinish = newValue.getTime();
+        });
+
+        $scope.$watch("mode", function(newValue, oldValue) {
+            $scope.powerSource = newValue === 'power' ? true : false;
+            $scope.cpuSource = newValue === 'cpu' ? true : false;
+        });
+
         $interval(updateProgress, 1000);
+
+        function validateEmail(email) {
+            var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        }
 
         function updateProgress() {
             if($scope.jobRunning === false) return;
@@ -142,9 +166,15 @@ angular.module('app').controller('HeatmapCtrl', function($scope){
         };
 
         $scope.submitJob = function() {
+
+            var subject = "Your CSV Job is Ready";
+            var message = null;
+            var target = $scope.target !== 'all' ? $scope.target : null;
+
             $scope.jobRunning = true;
-            var sample = {'email':$scope.userEmail, 'start':$scope.timestampStart, 'finish':$scope.timestampFinish};
+            var sample = {'email':$scope.userEmail, 'start':$scope.timestampStart, 'finish':$scope.timestampFinish, 'mode':$scope.mode, 'subject':subject, 'message':message, 'target':target};
             console.log(sample);
+            console.log($scope.finishTime);
 
             $http.get("http://raspberrypi:5000/api/csv/" + JSON.stringify(sample))
             .then(function (response) {
@@ -446,13 +476,6 @@ angular.module('app').controller('HeatmapCtrl', function($scope){
             $scope.data[2].values.sort(function(a, b) {return parseFloat(a.timestamp) - parseFloat(b.timestamp);});
             if($scope.data[2].values.length > 50) {var diff = $scope.data[2].values.length - 50; $scope.data[2].values.splice(0,diff);}
             if($scope.samples.length > 60){ var diff = $scope.samples.length - 50; $scope.samples.splice(0,diff);}
-            $scope.data[2].values.forEach(function(a){a.yAxis = 1});
-            $scope.data[3].values = $scope.data[0].values.slice(0);
-            $scope.data[3].values.forEach(function(a){a.yAxis = 2});
-            $scope.data[4].values = $scope.data[1].values.slice(0);
-            $scope.data[4].values.forEach(function(a){a.yAxis = 2});
-            $scope.data[5].values = $scope.data[2].values.slice(0);
-            $scope.data[5].values.forEach(function(a){a.yAxis = 2});
         }
 
         function extractData1(samples) {
@@ -477,8 +500,6 @@ angular.module('app').controller('HeatmapCtrl', function($scope){
             $scope.data1[0].values.sort(function(a, b) {return parseFloat(a.timestamp) - parseFloat(b.timestamp);});
             if($scope.data1[0].values.length > 50){ var diff = $scope.data1[0].values.length - 50; $scope.data1[0].values.splice(0,diff);}
             $scope.data1[0].values.forEach(function(a){a.yAxis = 1});
-            $scope.data1[1].values = $scope.data1[0].values;
-            $scope.data1[1].values.forEach(function(a){a.yAxis = 2});
 
             console.log($scope.data1[0].values);
         }

@@ -5,6 +5,7 @@ import json
 import mailsender
 import waitcapture
 from flask.ext.cors import CORS
+from threading import Thread
 
 def add_cors_headers(response):
     response.headers['Access-Control-Allow-Origin'] = '192.168.0.6'
@@ -52,14 +53,22 @@ class Test(db.Model):
     garbage = db.Column(db.String)
 
 @app.route('/api/csv/<jsons>', methods=['GET', 'POST'])
+def handle_thread(jsons):
+    thread = Thread(target = create_csv, args = (jsons, ))
+    thread.start()
+    thread.join()
+
 def create_csv(jsons):
     ob = json.loads(jsons)
     start = ob['start']
-    #finish = ob['finish']
-    #email = ob['email']
-    return start
-    file_name = waitcapture.wait_capture(start, finish, email)
-    mailsender.send_mail("piotrhosa@gmail.com", None, None, file_name)
+    finish = ob['finish']
+    email = ob['email']
+    mode = ob['mode']
+    subject = ob['subject']
+    message = ob['message']
+    target = ob['target']
+    file_name = waitcapture.wait_capture(start, finish, email, mode, target)
+    mailsender.send_mail(email, subject, message, file_name)
 
 # Create the database tables.
 db.create_all()
@@ -76,4 +85,4 @@ manager.create_api(Config, methods=['GET', 'POST', 'PUT'])
 
 #blueprint.after_request(add_cors_headers)
 
-app.run(host = '0.0.0.0')
+app.run(host = '0.0.0.0', threaded=True)

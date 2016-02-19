@@ -80,6 +80,18 @@
             <div class="form-group">
                 <label>Email Address:</label>
                 <input type="text" class="form-control" ng-model="userEmail">
+                <label class="radio-inline"><input type="radio" name="response" ng-checked="model" ng-model="mode" value="power">Power samples</label>
+                <label class="radio-inline"><input type="radio" name="response" ng-model="mode" value="cpu">CPU samples</label>
+                <div ng-show="powerSource">
+                    <label class="radio-inline"><input type="radio" name="power" ng-checked="model" ng-model="target" value="all">All</label>
+                    <label class="radio-inline"><input type="radio" name="power" ng-model="target" value="minion">Minion</label>
+                    <label class="radio-inline"><input type="radio" name="power" ng-model="target" value="master">Master</label>
+                    <label class="radio-inline"><input type="radio" name="power" ng-model="target" value="cluster">Cluster</label>
+                </div>
+                <div ng-show="cpuSource">
+                    <label class="radio-inline"><input type="radio" name="cpu" ng-checked="model" ng-model="target" value="all">All</label>
+                    <label class="radio-inline"><input type="radio" name="cpu" ng-checked="model" ng-model="target" value="minion">Minion</label>
+                </div>
             </div>
 
             <hr>

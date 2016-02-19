@@ -14,6 +14,7 @@ def send_mail(send_to, subject=None, text=None, file=None):
     if text is None: 
         text = "Hi\n\nGEMS detected a change in the Raspberry Pi Cloud. Check the dashboard for details."
     
+    print subject, text
     msg = MIMEMultipart()
     msg['From'] = sender_name
     msg['To'] = send_to
