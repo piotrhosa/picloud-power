@@ -1,6 +1,9 @@
 import flask
 import flask.ext.sqlalchemy
 import flask.ext.restless
+import json
+import mailsender
+import waitcapture
 from flask.ext.cors import CORS
 
 def add_cors_headers(response):
@@ -47,6 +50,16 @@ class Test(db.Model):
     __tablename__ = 'test'
     id = db.Column(db.Unicode, primary_key=True)
     garbage = db.Column(db.String)
+
+@app.route('/api/csv/<jsons>', methods=['GET', 'POST'])
+def create_csv(jsons):
+    ob = json.loads(jsons)
+    start = ob['start']
+    #finish = ob['finish']
+    #email = ob['email']
+    return start
+    file_name = waitcapture.wait_capture(start, finish, email)
+    mailsender.send_mail("piotrhosa@gmail.com", None, None, file_name)
 
 # Create the database tables.
 db.create_all()

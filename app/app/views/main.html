@@ -5,63 +5,118 @@
         </br>
         <div class="container">
 
-            <button type="button" ng-click="run = !run" class="btn btn-primary">{{buttonValue}}</button>
+            <button type="button" data-toggle="button" ng-click="toggleRun()" ng-class="run ? 'btn btn-success' : 'btn btn-danger'">{{buttonValue}}</button>
 
             <nvd3 options="options" data="data"></nvd3>
 
+            <br></br>
+            <nvd3 options="options2" data="data"></nvd3>
+
+            <br></br>
+            <nvd3 options="options3" data="data"></nvd3>
+
+            <br></br>
+            <nvd3 options="options1" data="data1"></nvd3>
+
+            <br></br>
+            <nvd3 options="options4" data="data1"></nvd3>
+        </div>
+
+    </uib-tab>
+    <uib-tab heading="Table">
+        <div class="container">
+
+            <div class="form-inline">
+                <label>Source:  </label>
+                <label class="radio-inline" ng-repeat="selection in selections" for="{{selection}}">
+                    <input ng-model="selected.sel" ng-value="selection" type="radio" name="optradio">{{selection}}</label>
+                </label>
+            </div>
+            {{selected.toLowerCase()}}
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Target board</th>
+                        <th>Energy</th>
+                        <th>Time</th>
+                        <th>Average power</th>
+                        <th>Average current</th>
+                        <th>Average voltage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="s in samples" ng-if="s.target_id == selected.sel.toLowerCase()">
+                        <td>{{ s.timestamp }}</td>
+                        <td>{{ s.target_id }}</td>
+                        <td>{{ s.energy | number:5 }}</td>
+                        <td>{{ s.time | number:5 }}</td>
+                        <td>{{ s.avg_power | number:5 }}</td>
+                        <td>{{ s.avg_voltage | number:5 }}</td>
+                        <td>{{ s.avg_current| number:5 }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </uib-tab>
+
+    <uib-tab heading="Capture CSV">
+    </br>
+    <div class="container">
+        <div ng-controller="CSVCtrl">
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label>Start time:</label>
+                    <uib-timepicker ng-model="startTime" ng-change="changedStart()" hour-step="hstep" minute-step="mstep" show-meridian="false"></uib-timepicker>
+
+                </div>
+                <div class="col-xs-6">
+                    <label>Finish time:</label>
+                    <uib-timepicker ng-model="finishTime" ng-change="changedFinish()" hour-step="hstep" minute-step="mstep" show-meridian="false"></uib-timepicker>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Email Address:</label>
+                <input type="text" class="form-control" ng-model="userEmail">
+            </div>
+
+            <hr>
+            <div class="row">
+                <div class="col-xs-6">
+                    <button type="button" class="btn btn-primary" ng-click="submitJob()">Submit Job</button>
+                    <button type="button" class="btn btn-warning" ng-show="jobRunning" ng-click="cancelJob()">Cancel Job</button>
+                </div>
+            </div>
         </br>
-        <nvd3 options="options1" data="data1"></nvd3>
-    </div>
+        <div class="row" ng-show="jobRunning">
+            <div class="col-xs-6">
+                <uib-progressbar animate="false" value="jobProgress" type="success"><b>{{jobProgress}}%</b></uib-progressbar>
+            </div>
+        </div>
+        <div class="row" ng-show="jobCompleted">
+            <div class="alert alert-success">
+                <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Data capture is complete. Check your email!
+            </div>
+        </div>
+    </br>
+
+</div>
+</div>
 
 </uib-tab>
-<uib-tab heading="Table">
-    <div class="container">
-
-        <div class="form-inline">
-            <label>Source:  </label>
-            <label class="radio-inline" ng-repeat="selection in selections" for="{{selection}}">
-                <input ng-model="selected.sel" ng-value="selection" type="radio" name="optradio">{{selection}}</label>
-            </label>
-        </div>
-        {{selected.toLowerCase()}}
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Timestamp</th>
-                    <th>Target board</th>
-                    <th>Energy</th>
-                    <th>Time</th>
-                    <th>Power</th>
-                    <th>Peak power</th>
-                    <th>Peak current</th>
-                    <th>Peak voltage</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="s in samples" ng-if="s.target_id == selected.sel.toLowerCase()">
-                    <td>{{ s.id }}</td>
-                    <td>{{ s.timestamp }}</td>
-                    <td>{{ s.target_id }}</td>
-                    <td>{{ s.energy | number:5 }}</td>
-                    <td>{{ s.time | number:5 }}</td>
-                    <td>{{ s.avg_power | number:5 }}</td>
-                    <td>{{ s.peak_power | number:5 }}</td>
-                    <td>{{ s.peak_current | number:5 }}</td>
-                    <td>{{ s.peak_voltage | number:5 }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<uib-tab heading="Cluster">
+    <div ng-controller="HeatmapCtrl" heatmap map-data="heatmapData"></div>
 </uib-tab>
 </uib-tabset>
-<div class="form-inline">
-    <label>Rate:  </label>
-    <!--label class="radio-inline" ng-repeat="rate in rates" for="{{rate}}">
-    <input ng-model="selected_rate.sel" ng-value="rate" type="radio" name="optradio" ng-change="changeRate()">{{rate}}</label>
-</label-->
+<!--div class="form-inline">
+<label>Rate:  </label>
+<!--label class="radio-inline" ng-repeat="rate in rates" for="{{rate}}">
+<input ng-model="selected_rate.sel" ng-value="rate" type="radio" name="optradio" ng-change="changeRate()">{{rate}}</label>
+</label>
 <input type="text" ng-model="selected_rate.sel" class="form-control">{{per_sec}}&nbsp;
 <button type="button" ng-click="changeRate()" class="btn btn-primary">Change rate</button>
-</div>
+</div-->
 </div>

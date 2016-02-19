@@ -1,0 +1,75 @@
+body {
+    width: 1200px;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 28px;
+}
+
+
+.group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Document styling */
+
+#wrapper {
+   position: relative;
+
+}
+
+
+/* SVG styling */
+svg {
+   width: 820px;
+   height: 820px;
+   font-family: 'Titillium Web';
+}
+
+path, line {
+   fill: #225D23;
+   stroke: #eee;
+   stroke-width: 0.5px;
+   cursor: pointer;
+}
+
+
+#chart {
+   position: relative;
+   height: 480px;
+   margin: 10px;
+}
+
+div.node {
+   position: absolute;
+   background-color: #333333;
+
+   text-align: center;
+   color: white;
+   cursor: pointer;
+
+
+}
+
+div.node:hover {
+  background-color: #7F8289
+}
+
+
+
+div.node div.name {
+   font-size: 14px;
+   font-weight: 400;
+   padding-top: 6px;
+   line-height: 15px;
+
+}
+
+div.node div.value {
+   font-size: 13px;
+   font-weight: 400;
+   padding-top: 20px;
+
+
+}
