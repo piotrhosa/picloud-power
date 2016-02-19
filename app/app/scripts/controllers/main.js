@@ -8,106 +8,110 @@
 * Controller of the appApp
 */
 
-angular.module('app').controller('HeatmapCtrl', function($scope){
-    $scope.heatmapData = [
-        {
-            "nodeName": "pi1",
-            "temperature": 0.0,
-            "color": "#FF8C6F",
-            "cpuLoad": 0.0,
-            "power": 0.0
-        },
-        {
-            "nodeName": "pi2",
-            "temperature": 0.0,
-            "color": "#6DCFFF",
-            "cpuLoad": 0.0,
-            "power": 0.0
-        },
-        {
-            "nodeName": "pi3",
-            "temperature": 0.0,
-            "color": "#FDFF7A",
-            "cpuLoad": 0.0,
-            "power": 0.0
-        },
-        {
-            "nodeName": "pi4",
-            "temperature": 0.0,
-            "color": "#FF8C6F",
-            "cpuLoad": 0.0,
-            "power": 0.0
-        },
-        {
-            "nodeName": "pi5",
-            "temperature": 0.0,
-            "color": "#FF6A5D",
-            "cpuLoad": 0.0,
-            "power": 0.0
-        },
-        {
-            "nodeName": "pi6",
-            "temperature": 0.0,
-            "color": "#E88953",
-            "cpuLoad": 0.0,
-            "power": 0.0
-        },
-        {
-            "nodeName": "pi7",
-            "temperature": 0.0,
-            "color": "#FF8C6F",
-            "cpuLoad": 0.0,
-            "power": 0.0
-        },
-        {
-            "nodeName": "pi8",
-            "temperature": 0.0,
-            "color": "#FF8C6F",
-            "cpuLoad": 0.0,
-            "power": 0.0
-        },
-        {
-            "nodeName": "pi9",
-            "temperature": 0.0,
-            "color": "#FF8C6F",
-            "cpuLoad": 0.0,
-            "power": 0.0
-        },
-        {
-            "nodeName": "pi10",
-            "temperature": 0.0,
-            "color": "#FF8C6F",
-            "cpuLoad": 0.0,
-            "power": 0.0
-        },
-        {
-            "nodeName": "pi11",
-            "temperature": 0.0,
-            "color": "#FF8C6F",
-            "cpuLoad": 0.0,
-            "power": 0.0
-        },
-        {
-            "nodeName": "pi12",
-            "temperature": 0.0,
-            "color": "#FF8C6F",
-            "cpuLoad": 0.0,
-            "power": 0.0
-        },
-        {
-            "nodeName": "pi13",
-            "temperature": 0.0,
-            "color": "#FF8C6F",
-            "cpuLoad": 0.0,
-            "power": 0.0
-        },
-        {
-            "nodeName": "pi14",
-            "temperature": 0.0,
-            "color": "#FF8C6F",
-            "cpuLoad": 0.0,
-            "power": 0.0
-        }];
+angular.module('app').service('HeatmapService', function(){
+   this.heatmapData = [
+       {
+           "nodeName": "pi1",
+           "temperature": 0.0,
+           "color": "#D9DBDB",
+           "cpuLoad": 0.0,
+           "power": 0.0
+       },
+       {
+           "nodeName": "pi2",
+           "temperature": 0.0,
+           "color": "#6DCFFF",
+           "cpuLoad": 0.0,
+           "power": 0.0
+       },
+       {
+           "nodeName": "pi3",
+           "temperature": 0.0,
+           "color": "#FDFF7A",
+           "cpuLoad": 0.0,
+           "power": 0.0
+       },
+       {
+           "nodeName": "pi4",
+           "temperature": 0.0,
+           "color": "#FF8C6F",
+           "cpuLoad": 0.0,
+           "power": 0.0
+       },
+       {
+           "nodeName": "pi5",
+           "temperature": 0.0,
+           "color": "#FF6A5D",
+           "cpuLoad": 0.0,
+           "power": 0.0
+       },
+       {
+           "nodeName": "pi6",
+           "temperature": 0.0,
+           "color": "#E88953",
+           "cpuLoad": 0.0,
+           "power": 0.0
+       },
+       {
+           "nodeName": "pi7",
+           "temperature": 0.0,
+           "color": "#FF8C6F",
+           "cpuLoad": 0.0,
+           "power": 0.0
+       },
+       {
+           "nodeName": "pi8",
+           "temperature": 0.0,
+           "color": "#FF8C6F",
+           "cpuLoad": 0.0,
+           "power": 0.0
+       },
+       {
+           "nodeName": "pi9",
+           "temperature": 0.0,
+           "color": "#FF8C6F",
+           "cpuLoad": 0.0,
+           "power": 0.0
+       },
+       {
+           "nodeName": "pi10",
+           "temperature": 0.0,
+           "color": "#FF8C6F",
+           "cpuLoad": 0.0,
+           "power": 0.0
+       },
+       {
+           "nodeName": "pi11",
+           "temperature": 0.0,
+           "color": "#FF8C6F",
+           "cpuLoad": 0.0,
+           "power": 0.0
+       },
+       {
+           "nodeName": "pi12",
+           "temperature": 0.0,
+           "color": "#FF8C6F",
+           "cpuLoad": 0.0,
+           "power": 0.0
+       },
+       {
+           "nodeName": "pi13",
+           "temperature": 0.0,
+           "color": "#FF8C6F",
+           "cpuLoad": 0.0,
+           "power": 0.0
+       },
+       {
+           "nodeName": "pi14",
+           "temperature": 0.0,
+           "color": "#FF8C6F",
+           "cpuLoad": 0.0,
+           "power": 0.0
+       }];
+});
+
+angular.module('app').controller('HeatmapCtrl', function($scope, HeatmapService){
+    $scope.heatmapData = HeatmapService.heatmapData;
     });
 
     angular.module('app').controller('CSVCtrl', function ($scope, $log, $interval, $http) {

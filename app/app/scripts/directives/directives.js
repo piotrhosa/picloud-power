@@ -65,18 +65,15 @@ angular.module('app')
             nodes
             .append('div')
             .classed('name', true)
-            .text(function(d) {return d.nodeName })
-            .style('width', 2 * radius + 'px');
+            .text(function(d) {return d.nodeName;})
+            .style('width', 2 * radius + 'px')
+            .style('height', 5 + 'px');
 
             nodes
             .append('div')
             .classed('value', true)
-            .text(function(d) {return d.temperature;})
+            .text(function(d) {return 0;})
             .style('width', 2 * radius + 'px');
-
-            nodes
-            .append("svg:title")
-            .text(function(d) { return d.color; });
 
             updateChart();
         }
