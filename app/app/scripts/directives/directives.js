@@ -66,8 +66,7 @@ angular.module('app')
             .append('div')
             .classed('name', true)
             .text(function(d) {return d.nodeName;})
-            .style('width', 2 * radius + 'px')
-            .style('height', 5 + 'px');
+            .style('width', 2 * radius + 'px');
 
             nodes
             .append('div')

@@ -180,7 +180,7 @@ angular.module('app').controller('HeatmapCtrl', function($scope, HeatmapService)
             console.log(sample);
             console.log($scope.finishTime);
 
-            $http.get("http://raspberrypi:5000/api/csv/" + JSON.stringify(sample))
+            $http.get("http://" + pi_addr + ":5000/api/csv/" + JSON.stringify(sample))
             .then(function (response) {
                 console.log(response.data);
             }, function(response) {
@@ -405,7 +405,7 @@ angular.module('app').controller('HeatmapCtrl', function($scope, HeatmapService)
                 rate: $scope.rate_int,
                 id: "2"
             });
-            $http.put("http://raspberrypi:5000/api/config",data1)
+            $http.put("http://" + pi_addr + ":5000/api/config",data1)
             .then(function (response) {
                 console.log(response);
             }, function(response) {
@@ -421,6 +421,8 @@ angular.module('app').controller('HeatmapCtrl', function($scope, HeatmapService)
 
         function getRecentSamples() {
 
+            console.log($scope.run);
+
             if(!$scope.run) return;
 
             console.log("Sampling...");
@@ -429,7 +431,7 @@ angular.module('app').controller('HeatmapCtrl', function($scope, HeatmapService)
             var filters = {"name": "timestamp", "op": "gt", "val": 0}
             var orderStr = "?q=" + JSON.stringify(order);
 
-            $http.get("http://raspberrypi:5000/api/powersample" + orderStr)
+            $http.get("http://" + pi_addr + ":5000/api/powersample" + orderStr)
             .then(function (response) {
                 $scope.incomingSamples = response.data.objects;
                 extractData($scope.incomingSamples);
@@ -441,7 +443,7 @@ angular.module('app').controller('HeatmapCtrl', function($scope, HeatmapService)
             var filters1 = {"name": "timestamp", "op": "gt", "val": 0}
             var orderStr1 = "?q=" + JSON.stringify(order);
 
-            $http.get("http://raspberrypi:5000/api/cpusample" + orderStr1)
+            $http.get("http://" + pi_addr + ":5000/api/cpusample" + orderStr1)
             .then(function (response) {
                 $scope.incomingSamples1 = response.data.objects;
                 extractData1($scope.incomingSamples1);
@@ -505,7 +507,7 @@ angular.module('app').controller('HeatmapCtrl', function($scope, HeatmapService)
             if($scope.data1[0].values.length > 50){ var diff = $scope.data1[0].values.length - 50; $scope.data1[0].values.splice(0,diff);}
             $scope.data1[0].values.forEach(function(a){a.yAxis = 1});
 
-            console.log($scope.data1[0].values);
+            console.log($scope.data[0].values);
         }
 
 
