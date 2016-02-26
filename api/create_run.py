@@ -15,10 +15,12 @@ def add_cors_headers(response):
 # Create the Flask application and the Flask-SQLAlchemy object.
 app = flask.Flask(__name__)
 app.config['DEBUG'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/pi/data1.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/pi/cluster_data.db'
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
 CORS(app)
 
+
+# Define classes for Flask-Restless
 class PowerSample(db.Model):
     __tablename__ = 'powersample'
     id = db.Column(db.Unicode, primary_key=True)
@@ -42,24 +44,15 @@ class CpuSample(db.Model):
     cpu_load = db.Column(db.Float)
     temperature = db.Column(db.Float)
 
-class Config(db.Model):
-    __tablename__ = 'config'
-    id = db.Column(db.Unicode, primary_key=True)
-    rate = db.Column(db.Float)
-
-class Test(db.Model):
-    __tablename__ = 'test'
-    id = db.Column(db.Unicode, primary_key=True)
-    garbage = db.Column(db.String)
-
+# Define another endpoint in Flask to handle CSV file generation
 @app.route('/api/csv/<jsons>', methods=['GET', 'POST'])
-def handle_thread(jsons):
-    thread = Thread(target = create_csv, args = (jsons, ))
+def handle_thread(json_data):
+    thread = Thread(target = create_csv, args = (json_data))
     thread.start()
     thread.join()
 
-def create_csv(jsons):
-    ob = json.loads(jsons)
+def create_csv(json_data):
+    ob = json.loads(json_data)
     start = ob['start']
     finish = ob['finish']
     email = ob['email']
@@ -76,13 +69,8 @@ db.create_all()
 # Create the Flask-Restless API manager.
 manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 
-# Create API endpoints, which will be available at /api/<tablename> by
-# default. Allowed HTTP methods can be specified as well.
-blueprint = manager.create_api(PowerSample, methods=['GET', 'POST', 'DELETE'])
+# Create API endpoints, which will be available at /api/<tablename>
+manager.create_api(PowerSample, methods=['GET', 'POST', 'DELETE'])
 manager.create_api(CpuSample, methods=['GET', 'POST'])
-manager.create_api(Test, methods=['GET', 'POST', 'DELETE'])
-manager.create_api(Config, methods=['GET', 'POST', 'PUT'])
-
-#blueprint.after_request(add_cors_headers)
 
 app.run(host = '0.0.0.0', threaded=True)

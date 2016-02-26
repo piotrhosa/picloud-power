@@ -9,8 +9,8 @@
 * Main module of the application.
 */
 
-var pi_addr = '192.168.1.134';
-
+//var pi_addr = '192.168.1.134';
+var pi_addr = 'powermaster'
 angular
 .module('app', [
     'ngAnimate',

@@ -1,10 +1,13 @@
 angular.module('app')
-.directive("heatmap", function($window) {
+.directive("heatmap", function($window, $interval) {
     return{
         restrict: "EA",
         template: "<div id='chart'></div>",
         link: function(scope, elem, attrs){
 
+            $interval(refreshData, 1000);
+            var el = angular.element(elem[0].querySelector('div.name'));
+            console.log(el);
             var d3 = $window.d3;
             var dataToPlot = scope[attrs.mapData];
             var radius = 100, width = 100, height_rad = 35, padding = 5, cols = 2, parameter = 'RecId';
@@ -18,7 +21,6 @@ angular.module('app')
             }
 
             function updateChart() {
-
                 var nodes = d3.select('#chart')
                 .selectAll('div.node')
                 .sort(function(a, b) {return parameter === 'ranking' ? d3.ascending(a[parameter], b[parameter]) : d3.descending(a[parameter], b[parameter]);})
@@ -50,6 +52,12 @@ angular.module('app')
                 });
             }
 
+            function refreshData() {
+                angular.element("#entity-pi0")[0].style.backgroundColor = dataToPlot.find(function (d) {
+                        return d.nodeName === 'pi0';
+                    }).color;
+            }
+
             var nodes = d3.select('#chart')
             .selectAll('div')
             .data(dataToPlot)
@@ -67,11 +75,23 @@ angular.module('app')
             .classed('name', true)
             .text(function(d) {return d.nodeName;})
             .style('width', 2 * radius + 'px');
+            /*
+            nodes
+            .append('div')
+            .classed('temp', true)
+            .text(function(d) {return "T: " + String(d.temperature);})
+            .style('width', 2 * radius + 'px');
+            */
+            nodes
+            .append('div')
+            .classed('load', true)
+            .text(function(d) {return String(d.cpu_load) + "% CPU";})
+            .style('width', 2 * radius + 'px');
 
             nodes
             .append('div')
-            .classed('value', true)
-            .text(function(d) {return 0;})
+            .classed('power', true)
+            .text(function(d) {return "P: " + String(d.temperature);})
             .style('width', 2 * radius + 'px');
 
             updateChart();

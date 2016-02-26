@@ -1,24 +1,6 @@
-body {
-    width: 1200px;
-    font-size: 16px;
-    font-weight: 300;
-    line-height: 28px;
-}
-
-
-.group:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Document styling */
-
 #wrapper {
    position: relative;
-
 }
-
 
 /* SVG styling */
 svg {
@@ -26,7 +8,7 @@ svg {
    height: 820px;
    font-family: 'Titillium Web';
 }
-
+/*
 path, line {
    fill: #225D23;
    stroke: #eee;
@@ -34,7 +16,7 @@ path, line {
    cursor: pointer;
 }
 
-
+*/
 #chart {
    position: relative;
    height: 480px;
@@ -48,15 +30,11 @@ div.node {
    text-align: center;
    color: white;
    cursor: pointer;
-
-
 }
 
 div.node:hover {
   background-color: #7F8289
 }
-
-
 
 div.node div.name {
    font-size: 14px;
