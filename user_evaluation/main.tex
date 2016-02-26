@@ -1,0 +1,124 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{tikz}
+\usetikzlibrary{arrows, automata}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{titling}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{array}
+
+\onehalfspacing
+
+\setlength{\topmargin}{0in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\textheight}{8.75in}
+\setlength{\textwidth}{6.5in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\parindent}{0in}
+\setlength{\parskip}{0.25in}
+\setlength{\footskip}{0.75in}
+\setlength{\droptitle}{-5em}
+
+\begin{document}
+%\includegraphics[trim=1.0cm 1.0cm 1.0cm 1.0cm]{CompSci_colour}
+
+\title{User Evaluation - GEMS: Glasgow Energy Measurement System for the Raspberry Pi Cloud}
+\author{Student: Piotr Hosa, piotrhosa@gmail.com\\Supervisor: David R. White, davidrobertwhite@gmil.com}
+\date{\vspace{-5ex}}
+\maketitle
+
+\section{User Evaluation}
+This user evaluation focuses on the usability and usefulness of a system created by the student for his Final Year Project at the University of Glasgow. This form is anonymous and your participation is voluntary. You can withdraw from the evaluation at any point. The results provided in the final section of this form will be analyzed and included in the student's project report. 
+
+If you have any further questions please do not hesitate to contact the student or his supervisor on the email addresses listed above.
+
+\section{About the Project}
+The project focused on developing a system capable of measuring the power consumption of the Glasgow Raspberry Pi Cloud (RPC). The RPC is a project started in 2012 by researchers in the School of Computing Science at the University of Glasgow. The Cloud is a scale-model data center that mimics the behavior of a full-sized infrastructure, while eliminating the main challenges posed such systems as high cost, high power consumption and cooling. The system consists of low-cost Raspberry Pi computers.
+
+The student has created a system that is accessible through a web interface, which allows to view and collect real-time data. 
+
+\section{The Tasks}
+In this section you are asked to perform a set of tasks using the GEMS web interface. You can take notes in the blank space. 
+\begin{enumerate}
+  \item In the Dashboard go to the 'Graph' tab and take note of the power being supplied to pi0 at the moment. It may be convenient to use the Freeze/Run button in the right-hand corner. You can also select which plots you want to see in the upper right corner of each graph.\\
+  \item Scroll down to see the CPU and temperature data. Do these data sets follow a similar trend to the power data for pi0?\\
+  \item Now go to the 'Table' tab. Take note of the most recent power reading for pi0. This result should be similar to the one you obtained in step 1.\\
+  \item Change the tab to 'Capture CSV'. This tool allows the user to specify a start and stop time as well as a target device to collect power consumption data. Use the form to get a data file delivered to your email address.\\
+  \item Finally go to the 'Cluster' tab. Each box represents a single Raspberry Pi in the cluster. The color represents temperature and is further explained in the legend below. Again, look at pi0 and note its temperature, CPU consumption and current power used by the computer.
+\end{enumerate}
+\newpage
+\section{Evaluation}
+Please take a couple of minutes to evaluate the system you have just used.
+
+Instructions: Respond to statements 1 - 4 by circling the number that best expresses your opinion regarding that statement. Respond to questions 5 and 6 by writing down an answer in the blank space.
+
+1. Indicate the level of difficulty of navigating and using the web interface.
+\vspace{-5ex}
+\begin{center}
+\begin{tabular}{
+|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}| }
+\hline
+ 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ 
+ \hline
+ Strongly &&&&&&&&& Strongly\\
+ disagree &&&&&&&&& agree\\
+  \hline
+\end{tabular}
+\end{center}
+
+2. Indicate the level to which you think the web interface is useful.
+\vspace{-5ex}
+\begin{center}
+\begin{tabular}{
+|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}| }
+\hline
+ 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ 
+ \hline
+ Not at &&&&&&&&& Very\\
+ all &&&&&&&&& useful\\
+  \hline
+\end{tabular}
+\end{center}
+
+3. Indicate to what extent the data provides an instantaneous insight to what is going on in the cluster.
+\vspace{-5ex}
+\begin{center}
+\begin{tabular}{
+|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}| }
+\hline
+ 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ 
+ \hline
+ Very &&&&&&&&& Very\\
+ bad &&&&&&&&& good\\
+  \hline
+\end{tabular}
+\end{center}
+
+4. Indicate to what extent the data provides a detailed numerical insight to what is going on in the cluster.
+\vspace{-5ex}
+\begin{center}
+\begin{tabular}{
+|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}|m{3em}| }
+\hline
+ 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ 
+ \hline
+ Very &&&&&&&&& Very\\
+ bad &&&&&&&&& good\\
+  \hline
+\end{tabular}
+\end{center}
+
+5. Have you experienced any bugs or system failures when using the system? If yes, please describe what happened below.\\\\\\
+
+6. Do you have any suggestions on what could be changed or added to the system? What features would you like to see?\\\\\\
+
+\end{document}

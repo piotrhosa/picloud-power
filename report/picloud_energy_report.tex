@@ -58,18 +58,18 @@ Before the upgrade, a team of students worked on a wake-on-LAN hardware and load
 
 \section{Related Work}
 \subsection{Raspberry Pi Clusters}
+Since the Raspberry Pi has been released it became hugely popular in the computing community. This meant that not only the researchers at the University of Glasgow, but also other research institutions took advantage of the low-cost computers. 
+
+* A Low-Cost Computer Cluster for High-Performance Computing Education\\
+*Affordable and Energy-Efficient Cloud Computing Clusters: The Bolzano Raspberry Pi Cloud Cluster Experiment\\
+*Iridis-pi: a low-cost, compact demonstration cluster\\
 \subsection{Power Measurement}
-Papers that deal with similar topics (links commented out):
-\begin{enumerate}
-  \item PowerPi: Measuring and Modeling the Power Consumption of the Raspberry Pi %http://ieeexplore.ieee.org.ezproxy.lib.gla.ac.uk/stamp/stamp.jsp?tp=&arnumber=6925777
-  \item Affordable and Energy-Efficient Cloud Computing Clusters: The Bolzano Raspberry Pi Cloud Cluster Experiment %http://ieeexplore.ieee.org.ezproxy.lib.gla.ac.uk/stamp/stamp.jsp?tp=&arnumber=6735414
-%  \item The Glasgow Raspberry Pi Cloud: A Scale Model for Cloud Computing Infrastructures %
-  \item A Study Case of Restful Frameworks in Raspberry Pi: A Perfomance and Energy Overview %http://ieeexplore.ieee.org.ezproxy.lib.gla.ac.uk/stamp/stamp.jsp?tp=&arnumber=6928976
-  \item A Low-Cost Computer Cluster for High-Performance Computing Education %http://ieeexplore.ieee.org.ezproxy.lib.gla.ac.uk/stamp/stamp.jsp?tp=&arnumber=6871791
-  \item Iridis-pi: a low-cost, compact demonstration cluster %http://link.springer.com.ezproxy.lib.gla.ac.uk/article/10.1007%2Fs10586-013-0282-7
-  \item Impact of different compiler options on energy consumption %http://mageec.org/w/images/d/d7/JamesCauldron2013.pdf
-  \item Energy Measurement Infrastructure %http://mageec.org/2014/04/23/energy-measurement-infrastructure/
-\end{enumerate}
+The core element of hardware in this project is the power measuring shield created by the MAGEEC project at the University of Bristol. The shield attaches to the I/O pins of the STM32F4 Discovery board and provides hardware interfaces for measuring up to 3 external sources. The STM board does not have an operating system and it uses pre-loaded C programs that run continuously when power is supplied to the board. The shield was designed with the purpose of measuring the power efficiency of compilers. Therefore the processors that are measured in the MAGEEC project require to be embedded in boards with jumper pins that allow to intercept the CPU power supply or to be stand-alone processors such as ATMEGA AVRs. This served the purpose of measuring the power consumption of the CPU only, excluding other components on the board. In this project the author uses the STM board to measure the power consumption of all the components in the Raspberry Pi, therefore the lack of CPU jumper pins does not pose an obstacle that would otherwise exclude the Raspberry Pi of being subject to this experiment.
+
+*PowerPi: Measuring and Modeling the Power Consumption of the Raspberry Pi\\
+*A Study Case of Restful Frameworks in Raspberry Pi: A Perfomance and Energy Overview\\
+*Impact of different compiler options on energy consumption\\
+*Energy Measurement Infrastructure\\
 
 %==============================================================================
 \chapter{Requirements}

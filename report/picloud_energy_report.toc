@@ -5,22 +5,24 @@
 \contentsline {subsection}{\numberline {1.2.2}The Original Cloud}{2}
 \contentsline {subsection}{\numberline {1.2.3}More Recent Projects}{2}
 \contentsline {section}{\numberline {1.3}Related Work}{2}
-\contentsline {chapter}{\numberline {2}Requirements}{3}
-\contentsline {section}{\numberline {2.1}Use Cases}{3}
-\contentsline {section}{\numberline {2.2}Functional Requirements}{3}
-\contentsline {section}{\numberline {2.3}Non-Functional Requirements}{3}
-\contentsline {chapter}{\numberline {3}Design}{4}
-\contentsline {section}{\numberline {3.1}Hardware}{4}
-\contentsline {section}{\numberline {3.2}API Server}{4}
-\contentsline {section}{\numberline {3.3}Web Client}{5}
-\contentsline {chapter}{\numberline {4}Implementation}{6}
-\contentsline {section}{\numberline {4.1}Logger Node}{6}
-\contentsline {section}{\numberline {4.2}Minion Nodes}{6}
-\contentsline {chapter}{\numberline {5}Evaluation}{7}
-\contentsline {section}{\numberline {5.1}Testing}{7}
-\contentsline {section}{\numberline {5.2}Acceptance Testing}{7}
-\contentsline {chapter}{\numberline {6}Conclusion}{8}
-\contentsline {section}{\numberline {6.1}Summary}{8}
-\contentsline {section}{\numberline {6.2}Future Work}{8}
-\contentsline {chapter}{Appendices}{9}
-\contentsline {chapter}{\numberline {A}Appendix}{10}
+\contentsline {subsection}{\numberline {1.3.1}Raspberry Pi Clusters}{2}
+\contentsline {subsection}{\numberline {1.3.2}Power Measurement}{2}
+\contentsline {chapter}{\numberline {2}Requirements}{4}
+\contentsline {section}{\numberline {2.1}Use Cases}{4}
+\contentsline {section}{\numberline {2.2}Functional Requirements}{4}
+\contentsline {section}{\numberline {2.3}Non-Functional Requirements}{4}
+\contentsline {chapter}{\numberline {3}Design}{5}
+\contentsline {section}{\numberline {3.1}Hardware}{5}
+\contentsline {section}{\numberline {3.2}API Server}{5}
+\contentsline {section}{\numberline {3.3}Web Client}{6}
+\contentsline {chapter}{\numberline {4}Implementation}{7}
+\contentsline {section}{\numberline {4.1}Logger Node}{7}
+\contentsline {section}{\numberline {4.2}Minion Nodes}{7}
+\contentsline {chapter}{\numberline {5}Evaluation}{8}
+\contentsline {section}{\numberline {5.1}Testing}{8}
+\contentsline {section}{\numberline {5.2}Acceptance Testing}{8}
+\contentsline {chapter}{\numberline {6}Conclusion}{9}
+\contentsline {section}{\numberline {6.1}Summary}{9}
+\contentsline {section}{\numberline {6.2}Future Work}{9}
+\contentsline {chapter}{Appendices}{10}
+\contentsline {chapter}{\numberline {A}Appendix}{11}
