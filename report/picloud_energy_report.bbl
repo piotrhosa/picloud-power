@@ -1,0 +1,35 @@
+\begin{thebibliography}{1}
+
+\bibitem{dabbagh_hamdaoui_guizani_rayes_2015}
+Mehiar Dabbagh, Bechir Hamdaoui, Mohsen Guizani, and Ammar Rayes.
+\newblock Toward energy-efficient cloud computing: Prediction, consolidation,
+  and overcommitment.
+\newblock {\em IEEE Network}, 29(2):56--61, 2015.
+
+\bibitem{mcwha_2016}
+H.~McWha.
+\newblock {Kubernetes Dashboard} run as {Docker} image on {Raspberry Pi} 2.,
+  2016.
+
+\bibitem{tso_white_jouet_singer_pezaros_2013}
+Fung~Po Tso, David~R. White, Simon Jouet, Jeremy Singer, and Dimitrios~P.
+  Pezaros.
+\newblock {The Glasgow Raspberry Pi Cloud}: A scale model for cloud computing
+  infrastructures.
+\newblock {\em 2013 IEEE 33rd International Conference on Distributed Computing
+  Systems Workshops}, 2013.
+
+\bibitem{walker_2015}
+Jim Walker.
+\newblock How to: {Kubernetes} multi-node on {Raspberry Pi} 2s, 2015.
+
+\bibitem{white_2013}
+David~R. White.
+\newblock A {Raspberry Pi} cloud, 2013.
+
+\bibitem{zhang_cheng_boutaba_2010}
+Qi~Zhang, Lu~Cheng, and Raouf Boutaba.
+\newblock Cloud computing: state-of-the-art and research challenges.
+\newblock {\em J Internet Serv Appl}, 1(1):7--18, 2010.
+
+\end{thebibliography}
