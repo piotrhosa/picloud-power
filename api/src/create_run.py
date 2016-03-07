@@ -8,13 +8,13 @@ from flask.ext.cors import CORS
 from threading import Thread
 
 def add_cors_headers(response):
-    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Origin'] = '192.168.0.6'
     response.headers['Access-Control-Allow-Credentials'] = 'true'
     return response
 
 # Create the Flask application and the Flask-SQLAlchemy object.
 app = flask.Flask(__name__)
-app.config['DEBUG'] = True
+app.config['DEBUG'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/pi/cluster_data.db'
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
 CORS(app)
@@ -45,12 +45,11 @@ class CpuSample(db.Model):
     temperature = db.Column(db.Float)
 
 # Define another endpoint in Flask to handle CSV file generation
-@app.route('/api/csv/<json_data>', methods=['GET', 'POST'])
+@app.route('/api/csv/<jsons>', methods=['GET', 'POST'])
 def handle_thread(json_data):
-    thread = Thread(target = create_csv, args = ([json_data]))
+    thread = Thread(target = create_csv, args = (json_data))
     thread.start()
     thread.join()
-    return 'str'
 
 def create_csv(json_data):
     ob = json.loads(json_data)
@@ -63,7 +62,6 @@ def create_csv(json_data):
     target = ob['target']
     file_name = waitcapture.wait_capture(start, finish, email, mode, target)
     mailsender.send_mail(email, subject, message, file_name)
-    return 'string'
 
 # Create the database tables.
 db.create_all()

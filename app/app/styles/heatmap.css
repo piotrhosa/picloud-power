@@ -19,7 +19,7 @@ path, line {
 */
 #chart {
    position: relative;
-   height: 480px;
+   height: 550px;
    margin: 10px;
 }
 
@@ -28,7 +28,7 @@ div.node {
    background-color: #333333;
 
    text-align: center;
-   color: white;
+   color: gray;
    cursor: pointer;
 }
 
@@ -47,4 +47,28 @@ div.node div.value {
    font-size: 13px;
    font-weight: 400;
    padding-top: 20px;
+}
+
+#colorTable, #colorTableRow{
+    border: black 1px solid;
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin: 0 auto;
+    width:100%;
+}
+
+#colorLegend {
+  height: 20px;
+}
+
+#legendContainer {
+    margin:auto;
+}
+
+.legendText {
+    display: inline-block;
+}
+
+.leftLegend {
+    float:right;
 }

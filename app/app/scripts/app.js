@@ -10,7 +10,7 @@
 */
 
 //var pi_addr = '192.168.1.134';
-var pi_addr = 'powermaster'
+var pi_addr = '192.168.0.13';
 angular
 .module('app', [
     'ngAnimate',
@@ -20,7 +20,8 @@ angular
     'ngSanitize',
     'ngTouch',
     'nvd3',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'chroma.angularChroma'
 ])
 .config(function ($routeProvider) {
     $routeProvider

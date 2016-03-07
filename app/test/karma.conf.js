@@ -35,6 +35,8 @@ module.exports = function(config) {
       'bower_components/nvd3/build/nv.d3.js',
       'bower_components/angular-nvd3/dist/angular-nvd3.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+      'bower_components/angular-chroma/angular-chroma.js',
+      'bower_components/chroma-js/chroma.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",

@@ -14,10 +14,25 @@ angular.module('app').service('HeatmapService', function(){
 
     //Colors obtained from http://colorbrewer2.org/
     this.range = ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026'];
-    this.rangeMin = 40;
-    this.rangeMax = 46;
+    this.rangeMin = 45;
+    this.rangeMax = 55;
 
-    this.getColor = function(temp) {
+    this.noIncomingCPUData = function() {
+        console.log("no incoming");
+        this.heatmapData.forEach(function(node) {
+            node.color = "#D3D3D3";
+            node.temperature = 0.0;
+            node.cpu_load = 0.0;
+        });
+    }
+
+    this.noIncomingPowerData = function() {
+        this.heatmapData.forEach(function(node) {
+            node.power = 0.0;
+        });
+    }
+
+    this.getColorDiscrete = function(temp) {
         var percentRange = (temp - this.rangeMin) / (this.rangeMax - this.rangeMin);
 
         if(percentRange <= 0) {
@@ -29,13 +44,44 @@ angular.module('app').service('HeatmapService', function(){
         }
     }
 
-    this.changeData = function(name, temperature, cpu_load) {
+    this.getColorCont = function(temp) {
+        var percentRange = (temp - this.rangeMin) / (this.rangeMax - this.rangeMin);
+        var hueRange = (1.0 - percentRange);
+        var hslColor = "";
+        var hue = 0;
+
+        if(percentRange <= 0) {
+            hue = hueRange * 240;
+            hslColor =  "hsl(240, 100%, 50%)";
+        } else if(percentRange >= 1) {
+            hue = hueRange * 240;
+            hslColor = "hsl(0, 100%, 50%)";
+        } else {
+            hue = hueRange * 240;
+            hslColor = "hsl(" + hue + ", 100%, 70%)";
+        }
+
+        return {'hslColor': hslColor, 'hue': hue};
+    }
+
+    this.updateCPU = function(name, temperature, cpu_load) {
         var target = this.heatmapData.find(function (d) {
             return d.nodeName === name;
         });
-        target.color = this.getColor(temperature);
+        var colorData = this.getColorCont(temperature);
+        target.color = colorData.hslColor;
+        target.hue = colorData.hue;
+        target.fontColor =  200 > target.hue && target.hue > 20 ? '#808080' : '#ffffff';
         target.temperature = temperature;
         target.cpu_load = cpu_load;
+        this.notifyObservers();
+    }
+
+    this.updatePower = function(name, power) {
+        var target = this.heatmapData.find(function (d) {
+            return d.nodeName === name;
+        });
+        target.power = power;
         this.notifyObservers();
     }
 

@@ -33,10 +33,7 @@ def wait_capture(start, finish, email, mode, target=None):
 
     print objects
 
-    if target is None:
-        target = 'all'
-
-    file_name = 'gems_' + mode + '_' + target + '_samples_' + str(finish) + '.csv'
+    file_name = 'gems_' + mode + '_samples_' + str(finish) + '.csv'
     print file_name
     print file_name
     with open(file_name, 'wb') as csvfile:

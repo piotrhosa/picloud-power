@@ -20,6 +20,25 @@ angular.module('app').controller('HeatmapCtrl', function($scope, HeatmapService)
     var some = HeatmapService.heatmapData.find(function (d) {
         return d.nodeName === 'pi1';
     });
+
+    var bottomColor = 240;
+    var topColor = 0;
+    var steps = 100;
+    $scope.colorRange = [];
+    $scope.colorWidth = 100/steps;
+    $scope.rangeMin = HeatmapService.rangeMin;
+    $scope.rangeMax = HeatmapService.rangeMax;
+
+    function generateRange() {
+        var ret = []
+        var colorstep = (bottomColor - topColor)/steps;
+        for(var i = 0; i < steps; ++i) {
+            ret.push('hsl(' + (bottomColor - i*colorstep) + ', 100%, 70%)');
+        }
+        $scope.colorRange = ret;
+    };
+
+    generateRange();
 });
 
 angular.module('app').controller('CSVCtrl', function ($scope, $log, $interval, $http) {
@@ -121,11 +140,17 @@ angular.module('app')
     $scope.rates = ['10', '5'];
     $scope.selected_rate = {'sel':'10'};
 
-    $scope.selections = ['Cluster', 'Master', 'Minion'];
-    $scope.selected = {'sel':'Cluster'};
+    $scope.selections = ['pi0', 'pi1', 'pi2'];
+    $scope.selected = {'sel':'pi0'};
     var rate_int = 0.0;
     $scope.per_sec = " per second";
     $scope.samples = [];
+
+    $scope.mostRecentPowerTimestamp = 0;
+    $scope.mostRecentCPUTimestamp = 0;
+
+    //Range visible in graphs in millis
+    $scope.timeRange = 60000;
 
     $scope.options = {
         chart: {
@@ -137,7 +162,7 @@ angular.module('app')
                 bottom: 40,
                 left: 80
             },
-            color: d3.scale.category10().range(),
+            color: d3.scale.category20().range(),
             x: function(d){ return d.timestamp; },
             y: function(d){ return d.avg_voltage; },
             useInteractiveGuideline: true,
@@ -167,7 +192,7 @@ angular.module('app')
                 bottom: 40,
                 left: 80
             },
-            color: d3.scale.category10().range(),
+            color: d3.scale.category20().range(),
             x: function(d){ return d.timestamp; },
             y: function(d){ return d.temperature; },
             useInteractiveGuideline: true,
@@ -196,7 +221,7 @@ angular.module('app')
                 bottom: 40,
                 left: 80
             },
-            color: d3.scale.category10().range(),
+            color: d3.scale.category20().range(),
             x: function(d){ return d.timestamp; },
             y: function(d){ return d.avg_current; },
             useInteractiveGuideline: true,
@@ -225,7 +250,7 @@ angular.module('app')
                 bottom: 40,
                 left: 80
             },
-            color: d3.scale.category10().range(),
+            color: d3.scale.category20().range(),
             x: function(d){ return d.timestamp; },
             y: function(d){ return d.avg_power; },
             useInteractiveGuideline: true,
@@ -255,7 +280,7 @@ angular.module('app')
                 bottom: 40,
                 left: 80
             },
-            color: d3.scale.category10().range(),
+            color: d3.scale.category20().range(),
             x: function(d){ return d.timestamp; },
             y: function(d){ return d.cpu_load; },
             useInteractiveGuideline: true,
@@ -276,12 +301,25 @@ angular.module('app')
     };
 
     $scope.data =
-    [{values: [], key: 'pi0 (pimaster)', yAxis: 1, type: 'line', chart: 1},
-    {values: [], key: 'pi1 (minion)', yAxis: 1, type: 'line', chart: 1},
-    {values: [], key: 'pi2 (minion)', yAxis: 1, type: 'line', chart: 1}]
+    [{values: [], key: 'pi0 (pimaster)', type: 'line'},
+    {values: [], key: 'pi1 (minion)', type: 'line'},
+    {values: [], key: 'pi2 (minion)', type: 'line'}]
 
     $scope.data1 =
-    [{values: [], key: 'Minion (T)', type: 'line', chart: 2}]
+    [{values: [], key: 'pi0', type: 'line'},
+    {values: [], key: 'pi1', type: 'line'},
+    {values: [], key: 'pi2', type: 'line'},
+    {values: [], key: 'pi3', type: 'line'},
+    {values: [], key: 'pi4', type: 'line'},
+    {values: [], key: 'pi5', type: 'line'},
+    {values: [], key: 'pi6', type: 'line'},
+    {values: [], key: 'pi7', type: 'line'},
+    {values: [], key: 'pi8', type: 'line'},
+    {values: [], key: 'pi9', type: 'line'},
+    {values: [], key: 'pi10', type: 'line'},
+    {values: [], key: 'pi11', type: 'line'},
+    {values: [], key: 'pi12', type: 'line'},
+    {values: [], key: 'pi13', type: 'line'}];
 
     $scope.run = true;
 
@@ -336,30 +374,46 @@ angular.module('app')
 
         if(!$scope.run) return;
 
-        console.log("Sampling...");
+        var queryPower = {
+            "order_by": [{"field": "timestamp", "direction": "desc"}],
+            "filters": [{"name": "timestamp", "op": "gt", "val": $scope.mostRecentPowerTimestamp}]
+        };
+        var queryStrPower = "?q=" + JSON.stringify(queryPower);
+        var ajaxStrPower = "http://" + pi_addr + ":5000/api/powersample" + queryStrPower;
 
-        var order = {"order_by": [{"field": "timestamp", "direction": "desc"}]};
-        var filters = {"name": "timestamp", "op": "gt", "val": 0}
-        var orderStr = "?q=" + JSON.stringify(order);
-
-        $http.get("http://" + pi_addr + ":5000/api/powersample" + orderStr)
+        $http.get(ajaxStrPower)
         .then(function (response) {
+            if(!$scope.run) return;
+            //if(response.data.total_pages > 1)
             $scope.incomingSamples = response.data.objects;
             extractData($scope.incomingSamples);
+            if(response.data.num_results === 0) $scope.data.forEach(function(node){node.values.splice(0, node.values.length)});
         }, function(response) {
             console.log("Error calling API");
+            $scope.data.forEach(function(node){node.values.splice(0, node.values.length)});
+            HeatmapService.noIncomingPowerData();
         });
 
-        var order1 = {"order_by": [{"field": "timestamp", "direction": "desc"}]};
-        var filters1 = {"name": "timestamp", "op": "gt", "val": 0}
-        var orderStr1 = "?q=" + JSON.stringify(order);
+        var queryCPU = {
+            "order_by": [{"field": "timestamp", "direction": "desc"}],
+            "filters": [{"name": "timestamp", "op": "gt", "val": $scope.mostRecentCPUTimestamp}]
+        };
+        var queryStrCPU = "?q=" + JSON.stringify(queryCPU);
+        var ajaxStrCPU = "http://" + pi_addr + ":5000/api/cpusample" + queryStrCPU;
 
-        $http.get("http://" + pi_addr + ":5000/api/cpusample" + orderStr1)
+        $http.get(ajaxStrCPU)
         .then(function (response) {
+            if(!$scope.run) return;
             $scope.incomingSamples1 = response.data.objects;
             extractData1($scope.incomingSamples1);
+            if(response.data.num_results === 0) {
+                $scope.data1.forEach(function(node){node.values.splice(0, node.values.length)});
+                HeatmapService.noIncomingCPUData();
+            }
         }, function(response) {
             console.log("Error calling API");
+            $scope.data1.forEach(function(node){node.values.splice(0, node.values.length)});
+            HeatmapService.noIncomingCPUData();
         });
     }
 
@@ -373,26 +427,55 @@ angular.module('app')
             current.date = date;
             current.formattedDate = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "." + date.getMilliseconds();
 
-            if(sampleSet.has(current)) {
-
-            }
-            else {
+            if(!sampleSet.has(current)) {
                 if(current.timestamp > largestTimestamp) largestTimestamp = current.timestamp;
                 sampleSet.add(current);
                 $scope.samples.push(current);
                 insertSample(current);
             }
-
         }
-        $scope.data[0].values.sort(function(a, b) {return parseFloat(a.timestamp) - parseFloat(b.timestamp);});
-        if($scope.data[0].values.length > 50){ var diff = $scope.data[0].values.length - 50; $scope.data[0].values.splice(0,diff);}
-        $scope.data[0].values.forEach(function(a){a.yAxis = 1});
-        $scope.data[1].values.sort(function(a, b) {return parseFloat(a.timestamp) - parseFloat(b.timestamp);});
-        if($scope.data[1].values.length > 50){var diff = $scope.data[1].values.length - 50; $scope.data[1].values.splice(0,diff);}
-        $scope.data[1].values.forEach(function(a){a.yAxis = 1});
-        $scope.data[2].values.sort(function(a, b) {return parseFloat(a.timestamp) - parseFloat(b.timestamp);});
-        if($scope.data[2].values.length > 50) {var diff = $scope.data[2].values.length - 50; $scope.data[2].values.splice(0,diff);}
-        if($scope.samples.length > 60){ var diff = $scope.samples.length - 50; $scope.samples.splice(0,diff);}
+
+        if($scope.samples.length > 0) {
+            var date = new Date().getTime();
+            $scope.samples.sort(function(a, b) {return parseFloat(a.timestamp) - parseFloat(b.timestamp);});
+            if($scope.samples[0].timestamp + $scope.timeRange < date) {
+                var index = 0;
+                for(i = 0; i < $scope.samples.length; i++) {
+                    if($scope.samples[i].timestamp > date - $scope.timeRange) {
+                        index = i;
+                        break;
+                    }
+                }
+                $scope.samples.splice(0,index);
+            }
+        }
+
+        $scope.data.forEach(function(node) {
+            var date = new Date().getTime();
+            node.values.sort(function(a, b) {return parseFloat(a.timestamp) - parseFloat(b.timestamp);});
+            if(node.values[0].timestamp + $scope.timeRange < date) {
+                var index = 0
+                for(i = 0; i < node.values.length; i++) {
+                    if(node.values[i].timestamp > date - $scope.timeRange) {
+                        index = i;
+                        break;
+                    }
+                }
+                node.values.splice(0,index);
+            }
+        })
+
+        //if($scope.data[0].values.length > 50){ var diff = $scope.data[0].values.length - 50; $scope.data[0].values.splice(0,diff);}
+        //if($scope.data[1].values.length > 50){var diff = $scope.data[1].values.length - 50; $scope.data[1].values.splice(0,diff);}
+        //if($scope.data[2].values.length > 50) {var diff = $scope.data[2].values.length - 50; $scope.data[2].values.splice(0,diff);}
+        //if($scope.samples.length > 60){ var diff = $scope.samples.length - 50; $scope.samples.splice(0,diff);}
+
+        var mostRecent = $scope.data[0].values[$scope.data[0].values.length - 1];
+        $scope.mostRecentPowerTimestamp = mostRecent.timestamp;
+        $scope.data.forEach(function(node) {
+            var mostRecent = node.values[node.values.length - 1];
+            HeatmapService.updatePower(mostRecent.target_id, mostRecent.avg_power);
+        })
     }
 
     function extractData1(samples) {
@@ -412,13 +495,49 @@ angular.module('app')
                 insertSample1(current);
                 $scope.samples.push(current);
             }
-
         }
-        $scope.data1[0].values.sort(function(a, b) {return parseFloat(a.timestamp) - parseFloat(b.timestamp);});
-        if($scope.data1[0].values.length > 50){ var diff = $scope.data1[0].values.length - 50; $scope.data1[0].values.splice(0,diff);}
-        $scope.data1[0].values.forEach(function(a){a.yAxis = 1});
 
-        //console.log($scope.data[0].values);
+        if($scope.samples.length > 0) {
+            var date = new Date().getTime();
+            $scope.samples.sort(function(a, b) {return parseFloat(a.timestamp) - parseFloat(b.timestamp);});
+            if($scope.samples[0].timestamp + $scope.timeRange < date) {
+                var index = 0;
+                for(i = 0; i < $scope.samples.length; i++) {
+                    if($scope.samples[i].timestamp > date - $scope.timeRange) {
+                        index = i;
+                        break;
+                    }
+                }
+                $scope.samples.splice(0,index);
+            }
+        }
+
+        for(var i = 0; i < $scope.data1.length; ++i) {
+            var node = $scope.data1[i];
+            var date = new Date().getTime();
+            node.values.sort(function(a, b) {return parseFloat(a.timestamp) - parseFloat(b.timestamp);});
+            if(node.values.length === 0) break;
+            if(node.values[0].timestamp + $scope.timeRange < date) {
+                var index = 0;
+                for(i = 0; i < node.values.length; i++) {
+                    if(node.values[i].timestamp > date - $scope.timeRange) {
+                        index = i;
+                        break;
+                    }
+                }
+                node.values.splice(0,index);
+            }
+        }
+
+        var mostRecent = $scope.data1[0].values[$scope.data1[0].values.length - 1];
+        $scope.mostRecentCPUTimestamp = mostRecent.timestamp;
+        for(var i = 0; i < $scope.data1.length; ++i) {
+            var node = $scope.data1[i];
+            if(node.values.length > 0) {
+                var mostRecent = node.values[node.values.length - 1];
+                HeatmapService.updateCPU(mostRecent.target_id, mostRecent.temperature, mostRecent.cpu_load);
+            }
+        }
     }
 
 
@@ -443,8 +562,46 @@ angular.module('app')
 
         switch(current.target_id) {
             case "pi0":
-            HeatmapService.changeData(current.target_id, current.temperature, current.cpu_load);
             $scope.data1[0].values.push(current);
+            break;
+            case "pi1":
+            $scope.data1[1].values.push(current);
+            break;
+            case "pi2":
+            $scope.data1[2].values.push(current);
+            break;
+            case "pi3":
+            $scope.data1[3].values.push(current);
+            break;
+            case "pi4":
+            $scope.data1[4].values.push(current);
+            break;
+            case "pi5":
+            $scope.data1[5].values.push(current);
+            break;
+            case "pi6":
+            $scope.data1[6].values.push(current);
+            break;
+            case "pi7":
+            $scope.data1[7].values.push(current);
+            break;
+            case "pi8":
+            $scope.data1[8].values.push(current);
+            break;
+            case "pi9":
+            $scope.data1[9].values.push(current);
+            break;
+            case "pi10":
+            $scope.data1[10].values.push(current);
+            break;
+            case "pi11":
+            $scope.data1[11].values.push(current);
+            break;
+            case "pi12":
+            $scope.data1[12].values.push(current);
+            break;
+            case "pi13":
+            $scope.data1[13].values.push(current);
             break;
             default:
             console.error("Sample not recognized.");

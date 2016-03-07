@@ -84,13 +84,13 @@
                 <label class="radio-inline"><input type="radio" name="response" ng-model="mode" value="cpu">CPU samples</label>
                 <div ng-show="powerSource">
                     <label class="radio-inline"><input type="radio" name="power" ng-checked="model" ng-model="target" value="all">All</label>
-                    <label class="radio-inline"><input type="radio" name="power" ng-model="target" value="minion">Minion</label>
-                    <label class="radio-inline"><input type="radio" name="power" ng-model="target" value="master">Master</label>
-                    <label class="radio-inline"><input type="radio" name="power" ng-model="target" value="cluster">Cluster</label>
+                    <label class="radio-inline"><input type="radio" name="power" ng-model="target" value="pi0">pi0</label>
+                    <label class="radio-inline"><input type="radio" name="power" ng-model="target" value="pi1">pi1</label>
+                    <label class="radio-inline"><input type="radio" name="power" ng-model="target" value="pi2">pi2</label>
                 </div>
                 <div ng-show="cpuSource">
                     <label class="radio-inline"><input type="radio" name="cpu" ng-checked="model" ng-model="target" value="all">All</label>
-                    <label class="radio-inline"><input type="radio" name="cpu" ng-checked="model" ng-model="target" value="minion">Minion</label>
+                    <label class="radio-inline"><input type="radio" name="cpu" ng-checked="model" ng-model="target" value="pi0">pi0</label>
                 </div>
             </div>
 
@@ -120,7 +120,20 @@
 
 </uib-tab>
 <uib-tab heading="Cluster">
-    <div ng-controller="HeatmapCtrl" heatmap map-data="heatmapData"></div>
+    <div class="container"ng-controller="HeatmapCtrl">
+        <div heatmap map-data="heatmapData"></div>
+        <div id="legendContainer" class="row">
+            <div class="col-xs-4"><p class="leftLegend">{{rangeMin}}°C</p></div>
+            <div class="col-xs-4">
+                <table id="colorTable">
+                    <tr id="colorTableRow">
+                        <td id="colorLegend" ng-repeat="value in colorRange track by $index" ng-attr-style="background: {{value}}; width:{{colorWidth}}%"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-xs-4 rightLegend">{{rangeMax}}°C</div>
+        </div>
+    </div>
 </uib-tab>
 </uib-tabset>
 <!--div class="form-inline">

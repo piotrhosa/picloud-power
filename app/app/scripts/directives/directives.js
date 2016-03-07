@@ -5,30 +5,52 @@ angular.module('app')
         template: "<div id='chart'></div>",
         link: function(scope, elem, attrs){
 
-            $interval(refreshData, 1000);
-            var el = angular.element(elem[0].querySelector('div.name'));
-            console.log(el);
             var d3 = $window.d3;
             var dataToPlot = scope[attrs.mapData];
-            var radius = 100, width = 100, height_rad = 35, padding = 5, cols = 2, parameter = 'RecId';
+            var radius = 100, width = 100, height_rad = 35, padding = 5, cols = 2, chartWidth = 0;
 
-            function SVG(x, y) {
-                return 'translate('+x+','+y+')';
-            }
+            //Call function updating data in chart
+            $interval(updateChart, 1000);
 
             function selectThis(d) {
                 d3.select(this).classed('selected', function() {return !d3.select(this).classed('selected');})
             }
 
             function updateChart() {
+                dataToPlot.forEach(function(node) {
+                    d3.select('#chart')
+                    .selectAll('#entity-' + node.nodeName)
+                    .transition()
+                    .duration(1000)
+                    .style('background-color', node.color)
+                    .style('color', node.fontColor);
+
+                    d3.select('#chart')
+                    .selectAll('#entity-load-' + node.nodeName)
+                    .transition()
+                    .duration(1000)
+                    .text(function(d) {return String(node.cpu_load) + "% CPU";})
+
+                    d3.select('#chart')
+                    .selectAll('#entity-power-' + node.nodeName)
+                    .transition()
+                    .duration(1000)
+                    .text(function(d) {return "Power: " + d3.format('.06f')(node.power*1000) + ' mW';})
+                });
+            }
+
+            function positionNodes() {
+                chartWidth = angular.element(document.querySelectorAll("ul.nav.nav-tabs")[0])[0].clientWidth;
+
                 var nodes = d3.select('#chart')
                 .selectAll('div.node')
-                .sort(function(a, b) {return parameter === 'ranking' ? d3.ascending(a[parameter], b[parameter]) : d3.descending(a[parameter], b[parameter]);})
+                .data(dataToPlot)
                 .transition()
                 .duration(1000)
                 .style('left', function(d, i) {
+                    var middle = chartWidth !== 0 ? chartWidth / 2 - (radius + padding) * 2 : 0;
                     var col = i % cols;
-                    var x = 2 * col * (radius + padding);
+                    var x = 2 * col * (radius + padding) + middle;
                     return x + 'px';
                 })
                 .style('top', function(d, i) {
@@ -36,26 +58,6 @@ angular.module('app')
                     var y = 2 * row * (height_rad + padding);
                     return y + 'px';
                 });
-
-                d3.select('#chart')
-                .selectAll('div.node .value')
-                .transition()
-                .duration(1000)
-                .tween("text", function(d)
-                {
-                    var x = d[parameter];
-                    if (!(parameter == 'RecId' || parameter == 'EntId')) x *= 10000;
-                    var i = d3.interpolate(this.textContent, (x));
-                    return function(t) {
-                        this.textContent = Math.round(i(t));
-                    };
-                });
-            }
-
-            function refreshData() {
-                angular.element("#entity-pi0")[0].style.backgroundColor = dataToPlot.find(function (d) {
-                        return d.nodeName === 'pi0';
-                    }).color;
             }
 
             var nodes = d3.select('#chart')
@@ -75,26 +77,22 @@ angular.module('app')
             .classed('name', true)
             .text(function(d) {return d.nodeName;})
             .style('width', 2 * radius + 'px');
-            /*
+
             nodes
             .append('div')
-            .classed('temp', true)
-            .text(function(d) {return "T: " + String(d.temperature);})
-            .style('width', 2 * radius + 'px');
-            */
-            nodes
-            .append('div')
+            .attr('id', function(d) {return 'entity-load-' + d.nodeName;})
             .classed('load', true)
             .text(function(d) {return String(d.cpu_load) + "% CPU";})
             .style('width', 2 * radius + 'px');
 
             nodes
             .append('div')
+            .attr('id', function(d) {return 'entity-power-' + d.nodeName;})
             .classed('power', true)
-            .text(function(d) {return "P: " + String(d.temperature);})
+            .text(function(d) {return "Power: " + String(d.temperature) + ' mW';})
             .style('width', 2 * radius + 'px');
 
-            updateChart();
+            positionNodes();
         }
     };
 });
