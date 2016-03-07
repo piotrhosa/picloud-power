@@ -97,6 +97,12 @@ INPUT ./figures/power_arch.png
 INPUT figures/init_setup.png
 INPUT ./figures/init_setup.png
 INPUT ./figures/init_setup.png
+INPUT figures/tower_setup.jpg
+INPUT ./figures/tower_setup.jpg
+INPUT ./figures/tower_setup.jpg
+INPUT figures/client.png
+INPUT ./figures/client.png
+INPUT ./figures/client.png
 INPUT figures/v2_dashboard.png
 INPUT ./figures/v2_dashboard.png
 INPUT ./figures/v2_dashboard.png

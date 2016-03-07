@@ -1,5 +1,5 @@
 # Fdb version 3
-["latex"] 1456490021 "main.tex" "main.dvi" "main" 1456490023
+["latex"] 1456490021 "main.tex" "main.dvi" "main" 1456859022
   "/usr/local/texlive/2015/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2015/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1136768653 1324 c910af8c371558dc20f2d7822f66fe64 ""
   "/usr/local/texlive/2015/texmf-dist/fonts/tfm/public/cm/cmmi12.tfm" 1136768653 1524 4414a8315f39513458b80dfc63bff03a ""
@@ -117,6 +117,6 @@
   "main.aux" 1456490022 465 8952371dc58c0b4d71c41c348f787efc ""
   "main.tex" 1456490013 5306 0f0cb298518a02f20d2e74c580311079 ""
   (generated)
-  "main.dvi"
-  "main.log"
   "main.aux"
+  "main.log"
+  "main.dvi"

@@ -3,44 +3,50 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: picloud_energy_report.aux
 The style file: plain.bst
 Database file #1: bib.bib
-You've used 6 entries,
+You're missing a field name---line 73 of file bib.bib
+ : 
+ : %url={http://mageec.org/2014/04/23/energy-measurement-infrastructure/},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You've used 14 entries,
             2118 wiz_defined-function locations,
-            526 strings with 4941 characters,
-and the built_in function-call counts, 1640 in all, are:
-= -- 145
-> -- 90
+            560 strings with 6696 characters,
+and the built_in function-call counts, 4179 in all, are:
+= -- 365
+> -- 282
 < -- 0
-+ -- 37
-- -- 30
-* -- 104
-:= -- 289
-add.period$ -- 15
-call.type$ -- 6
-change.case$ -- 33
++ -- 115
+- -- 98
+* -- 285
+:= -- 753
+add.period$ -- 37
+call.type$ -- 14
+change.case$ -- 91
 chr.to.int$ -- 0
-cite$ -- 6
-duplicate$ -- 53
-empty$ -- 133
-format.name$ -- 30
-if$ -- 334
+cite$ -- 14
+duplicate$ -- 128
+empty$ -- 289
+format.name$ -- 98
+if$ -- 827
 int.to.chr$ -- 0
-int.to.str$ -- 6
-missing$ -- 3
-newline$ -- 30
-num.names$ -- 12
-pop$ -- 44
+int.to.str$ -- 14
+missing$ -- 9
+newline$ -- 68
+num.names$ -- 28
+pop$ -- 109
 preamble$ -- 1
-purify$ -- 27
+purify$ -- 77
 quote$ -- 0
-skip$ -- 45
+skip$ -- 105
 stack$ -- 0
-substring$ -- 58
-swap$ -- 6
+substring$ -- 121
+swap$ -- 14
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 24
+type$ -- 56
 warning$ -- 0
-while$ -- 14
-width$ -- 7
-write$ -- 58
+while$ -- 31
+width$ -- 16
+write$ -- 134
+(There was 1 error message)

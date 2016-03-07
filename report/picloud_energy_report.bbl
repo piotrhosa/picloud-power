@@ -1,4 +1,19 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{abrahamsson_et_al_2013}
+Pekka Abrahamsson, Sven Helmer, Nattakarn Phaphoom, Lorenzo Nicolodi, Nick
+  Preda, Lorenzo Miori, Matteo Angriman, Juha Rikkila, Xiaofeng Wang, and Karim
+  et~al. Hamily.
+\newblock Affordable and energy-efficient cloud computing clusters: The
+  {Bolzano Raspberry Pi} cloud cluster experiment.
+\newblock {\em 2013 IEEE 5th International Conference on Cloud Computing
+  Technology and Science}, 2013.
+
+\bibitem{cox_cox_boardman_johnston_scott_o’brien_2013}
+Simon~J. Cox, James~T. Cox, Richard~P. Boardman, Steven~J. Johnston, Mark
+  Scott, and Neil~S. O’Brien.
+\newblock Iridis-pi: a low-cost, compact demonstration cluster.
+\newblock {\em Cluster Computing}, 17(2):349--358, 2013.
 
 \bibitem{dabbagh_hamdaoui_guizani_rayes_2015}
 Mehiar Dabbagh, Bechir Hamdaoui, Mohsen Guizani, and Ammar Rayes.
@@ -6,10 +21,43 @@ Mehiar Dabbagh, Bechir Hamdaoui, Mohsen Guizani, and Ammar Rayes.
   and overcommitment.
 \newblock {\em IEEE Network}, 29(2):56--61, 2015.
 
+\bibitem{kaup_gottschling_hausheer_2014}
+Fabian Kaup, Philip Gottschling, and David Hausheer.
+\newblock Powerpi: Measuring and modeling the power consumption of the
+  {Raspberry Pi}.
+\newblock {\em 39th Annual IEEE Conference on Local Computer Networks}, 2014.
+
+\bibitem{kiepert_2013}
+Joshua Kiepert.
+\newblock Creating a raspberry pi-based beowulf cluster.
+\newblock {\em Boise State University}, 2013.
+
 \bibitem{mcwha_2016}
 H.~McWha.
 \newblock {Kubernetes Dashboard} run as {Docker} image on {Raspberry Pi} 2.,
   2016.
+
+\bibitem{nunes_et_al_2014}
+Luiz~Henrique Nunes, Luis Hideo~Vasconcelos Nakamura, Heitor De~Freitas Vieira,
+  Rafael Mira De~Oliveira Libardi, Edvard Martins~De Oliveira, Lucas~Junqueira
+  Adami, Julio~Cezar Estrella, and Stephan Reiff-Marganiec.
+\newblock A study case of restful frameworks in {Raspberry Pi}: A performance
+  and energy overview.
+\newblock {\em 2014 IEEE International Conference on Web Services}, 2014.
+
+\bibitem{pallister_2014}
+James Pallister.
+\newblock Energy measurement infrastructure.
+
+\bibitem{pallister_hollis_bennett_2012}
+James Pallister, Simon Hollis, and Jeremy Bennett.
+\newblock Impact of different d options on energy consumption, 2012.
+
+\bibitem{pfalzgraf_driscoll_2014}
+Aaron~M. Pfalzgraf and Joseph~A. Driscoll.
+\newblock A low-cost computer cluster for high-performance computing education.
+\newblock {\em IEEE International Conference on Electro/Information
+  Technology}, 2014.
 
 \bibitem{tso_white_jouet_singer_pezaros_2013}
 Fung~Po Tso, David~R. White, Simon Jouet, Jeremy Singer, and Dimitrios~P.
