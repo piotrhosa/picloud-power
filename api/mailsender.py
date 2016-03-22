@@ -36,10 +36,13 @@ def send_mail(send_to, subject=None, text=None, file=None):
         attachment.add_header("Content-Disposition", "attachment", filename=file)
         msg.attach(attachment)
 
-    server = smtplib.SMTP('smtp.gmail.com')
+    server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
     server.starttls()
     server.ehlo()
     server.login("gemspicloud", "gemsgems")
-    server.sendmail(send_from, send_to, msg.as_string())
+    sent = server.sendmail(send_from, send_to, msg.as_string())
+    print sent
     server.close()
+
+    

@@ -14,19 +14,21 @@ angular.module('app').service('HeatmapService', function(){
 
     //Colors obtained from http://colorbrewer2.org/
     this.range = ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026'];
-    this.rangeMin = 45;
+    this.rangeMin = 40;
     this.rangeMax = 55;
 
     this.noIncomingCPUData = function() {
-        console.log("no incoming");
+        console.log("no incoming CPU");
         this.heatmapData.forEach(function(node) {
             node.color = "#D3D3D3";
             node.temperature = 0.0;
             node.cpu_load = 0.0;
+            node.fontColor = '#808080';
         });
     }
 
     this.noIncomingPowerData = function() {
+        console.log("No incoming power");
         this.heatmapData.forEach(function(node) {
             node.power = 0.0;
         });
@@ -52,10 +54,10 @@ angular.module('app').service('HeatmapService', function(){
 
         if(percentRange <= 0) {
             hue = hueRange * 240;
-            hslColor =  "hsl(240, 100%, 50%)";
+            hslColor =  "hsl(240, 100%, 70%)";
         } else if(percentRange >= 1) {
             hue = hueRange * 240;
-            hslColor = "hsl(0, 100%, 50%)";
+            hslColor = "hsl(0, 100%, 70%)";
         } else {
             hue = hueRange * 240;
             hslColor = "hsl(" + hue + ", 100%, 70%)";
@@ -71,7 +73,7 @@ angular.module('app').service('HeatmapService', function(){
         var colorData = this.getColorCont(temperature);
         target.color = colorData.hslColor;
         target.hue = colorData.hue;
-        target.fontColor =  200 > target.hue && target.hue > 20 ? '#808080' : '#ffffff';
+        target.fontColor =  200 > target.hue && target.hue > 30 ? '#808080' : '#ffffff';
         target.temperature = temperature;
         target.cpu_load = cpu_load;
         this.notifyObservers();

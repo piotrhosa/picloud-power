@@ -1,24 +1,47 @@
 <div class="container" ng-app="app">
 
     <uib-tabset>
+        <uib-tab heading="Monitor">
+            <div class="container"ng-controller="HeatmapCtrl">
+                <div heatmap map-data="heatmapData"></div>
+                <div id="legendContainer" class="row">
+                    <div class="col-xs-4"><p class="leftLegend">{{rangeMin}}°C</p></div>
+                    <div class="col-xs-4">
+                        <table id="colorTable">
+                            <tr id="colorTableRow">
+                                <td id="colorLegend" ng-repeat="value in colorRange track by $index" ng-attr-style="background: {{value}}; width:{{colorWidth}}%"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-xs-4 rightLegend">{{rangeMax}}°C</div>
+                </div>
+            </div>
+        </uib-tab>
         <uib-tab heading="Graph">
         </br>
         <div class="container">
 
             <button type="button" data-toggle="button" ng-click="toggleRun()" ng-class="run ? 'btn btn-success' : 'btn btn-danger'">{{buttonValue}}</button>
 
+            <h3 style="text-align: center">Power Data</h3>
+            <p>Voltage</p>
             <nvd3 options="options" data="data"></nvd3>
 
             <br></br>
+            <p>Current</p>
             <nvd3 options="options2" data="data"></nvd3>
 
             <br></br>
+            <p>Power</p>
             <nvd3 options="options3" data="data"></nvd3>
 
             <br></br>
+            <h3 style="text-align: center">CPU Data</h3>
+            <p>Temperature</p>
             <nvd3 options="options1" data="data1"></nvd3>
 
             <br></br>
+            <p>Load</p>
             <nvd3 options="options4" data="data1"></nvd3>
         </div>
 
@@ -41,14 +64,14 @@
                         <th>Target board</th>
                         <th>Energy</th>
                         <th>Time</th>
-                        <th>Average power</th>
-                        <th>Average current</th>
-                        <th>Average voltage</th>
+                        <th>Average power (W)</th>
+                        <th>Average voltage (V)</th>
+                        <th>Average current (A)</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="s in samples" ng-if="s.target_id == selected.sel.toLowerCase()">
-                        <td>{{ s.timestamp }}</td>
+                        <td>{{ s.formattedDate }}</td>
                         <td>{{ s.target_id }}</td>
                         <td>{{ s.energy | number:5 }}</td>
                         <td>{{ s.time | number:5 }}</td>
@@ -97,6 +120,11 @@
             <hr>
             <div class="row">
                 <div class="col-xs-6">
+                    <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
                     <button type="button" class="btn btn-primary" ng-click="submitJob()">Submit Job</button>
                     <button type="button" class="btn btn-warning" ng-show="jobRunning" ng-click="cancelJob()">Cancel Job</button>
                 </div>
@@ -118,22 +146,6 @@
 </div>
 </div>
 
-</uib-tab>
-<uib-tab heading="Cluster">
-    <div class="container"ng-controller="HeatmapCtrl">
-        <div heatmap map-data="heatmapData"></div>
-        <div id="legendContainer" class="row">
-            <div class="col-xs-4"><p class="leftLegend">{{rangeMin}}°C</p></div>
-            <div class="col-xs-4">
-                <table id="colorTable">
-                    <tr id="colorTableRow">
-                        <td id="colorLegend" ng-repeat="value in colorRange track by $index" ng-attr-style="background: {{value}}; width:{{colorWidth}}%"></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-xs-4 rightLegend">{{rangeMax}}°C</div>
-        </div>
-    </div>
 </uib-tab>
 </uib-tabset>
 <!--div class="form-inline">

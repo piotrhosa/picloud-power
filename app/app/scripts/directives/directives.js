@@ -35,7 +35,8 @@ angular.module('app')
                     .selectAll('#entity-power-' + node.nodeName)
                     .transition()
                     .duration(1000)
-                    .text(function(d) {return "Power: " + d3.format('.06f')(node.power*1000) + ' mW';})
+                    .text(function(d) {if(node.power > 0){return "Power: " + d3.format('.06f')(node.power) + ' W';}
+                                        else {return ""}})
                 });
             }
 
@@ -89,7 +90,7 @@ angular.module('app')
             .append('div')
             .attr('id', function(d) {return 'entity-power-' + d.nodeName;})
             .classed('power', true)
-            .text(function(d) {return "Power: " + String(d.temperature) + ' mW';})
+            .text(function(d) {return "";})
             .style('width', 2 * radius + 'px');
 
             positionNodes();

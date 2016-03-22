@@ -56,6 +56,7 @@ angular.module('app').controller('CSVCtrl', function ($scope, $log, $interval, $
     $scope.jobCompleted = false;
 
     $scope.userEmail = null;
+    $scope.alerts = [];
 
     $scope.mode = "power";
     $scope.target = "all";
@@ -83,6 +84,15 @@ angular.module('app').controller('CSVCtrl', function ($scope, $log, $interval, $
         return re.test(email);
     }
 
+    function validateTime(startTime, endTime) {
+        if(startTime > endTime) return false;
+        else return true;
+    }
+
+    $scope.closeAlert = function(index) {
+        $scope.alerts.splice(index, 1);
+    };
+
     function updateProgress() {
         if($scope.jobRunning === false) return;
         var timestampNow = new Date().getTime();
@@ -97,6 +107,25 @@ angular.module('app').controller('CSVCtrl', function ($scope, $log, $interval, $
     };
 
     $scope.submitJob = function() {
+
+        var alertRaised = false;
+        if(!validateTime($scope.startTime, $scope.finishTime)) {
+            $scope.alerts.push({
+                type:'danger',
+                msg: 'Start time cannot be larger than finish time!'
+            })
+            alertRaised = true;
+        }
+
+        if(!validateEmail($scope.userEmail)) {
+            $scope.alerts.push({
+                type:'danger',
+                msg: 'You need to enter a valid email address.'
+            })
+            alertRaised = true;
+        }
+
+        if(alertRaised) return;
 
         var subject = "Your CSV Job is Ready";
         var message = null;
@@ -193,7 +222,9 @@ angular.module('app')
                 left: 80
             },
             color: d3.scale.category20().range(),
-            x: function(d){ return d.timestamp; },
+            x: function(d){
+                return d.timestamp;
+            },
             y: function(d){ return d.temperature; },
             useInteractiveGuideline: true,
             duration: 0,
@@ -235,8 +266,8 @@ angular.module('app')
                 showMaxMin: false,
             },
             yAxis: {
-                axisLabel: 'Current (mA)',
-                tickFormat: function(d){return d3.format('.04f')(d*1000);}
+                axisLabel: 'Current (A)',
+                tickFormat: function(d){return d3.format('.04f')(d);}
             }
         }
     };
@@ -264,8 +295,8 @@ angular.module('app')
                 showMaxMin: false,
             },
             yAxis: {
-                axisLabel: 'Power (mW)',
-                tickFormat: function(d){return d3.format('.04f')(d*1000);}
+                axisLabel: 'Power (W)',
+                tickFormat: function(d){return d3.format('.04f')(d);}
             }
         }
     };
@@ -372,6 +403,8 @@ angular.module('app')
 
     function getRecentSamples() {
 
+        console.log($scope.samples.length);
+
         if(!$scope.run) return;
 
         var queryPower = {
@@ -430,7 +463,7 @@ angular.module('app')
             if(!sampleSet.has(current)) {
                 if(current.timestamp > largestTimestamp) largestTimestamp = current.timestamp;
                 sampleSet.add(current);
-                $scope.samples.push(current);
+                if(current.target_id != "") $scope.samples.push(current);
                 insertSample(current);
             }
         }
@@ -493,7 +526,7 @@ angular.module('app')
                 if(current.timestamp > largestTimestamp1) largestTimestamp1 = current.timestamp;
                 sampleSet1.add(current);
                 insertSample1(current);
-                $scope.samples.push(current);
+                //$scope.samples.push(current);
             }
         }
 
@@ -511,12 +544,27 @@ angular.module('app')
                 $scope.samples.splice(0,index);
             }
         }
-
-        for(var i = 0; i < $scope.data1.length; ++i) {
+        $scope.data1.forEach(function(node){
+            var date = new Date().getTime();
+                    node.values.sort(function(a, b) {return parseFloat(a.timestamp) - parseFloat(b.timestamp);});
+                    if(node.values.length > 0) {
+                    if(node.values[0].timestamp + $scope.timeRange < date) {
+                        var index = 0;
+                        for(i = 0; i < node.values.length; i++) {
+                            if(node.values[i].timestamp > date - $scope.timeRange) {
+                                index = i;
+                                break;
+                            }
+                        }
+                        node.values.splice(0,index);
+                    }
+                    }})
+                    /*
+        for(var i = 0; i < $scope.data1.length; i++) {
             var node = $scope.data1[i];
             var date = new Date().getTime();
             node.values.sort(function(a, b) {return parseFloat(a.timestamp) - parseFloat(b.timestamp);});
-            if(node.values.length === 0) break;
+            if(node.values.length > 0) {
             if(node.values[0].timestamp + $scope.timeRange < date) {
                 var index = 0;
                 for(i = 0; i < node.values.length; i++) {
@@ -527,14 +575,14 @@ angular.module('app')
                 }
                 node.values.splice(0,index);
             }
-        }
+            }
+        }*/
 
-        var mostRecent = $scope.data1[0].values[$scope.data1[0].values.length - 1];
-        $scope.mostRecentCPUTimestamp = mostRecent.timestamp;
         for(var i = 0; i < $scope.data1.length; ++i) {
             var node = $scope.data1[i];
             if(node.values.length > 0) {
                 var mostRecent = node.values[node.values.length - 1];
+                $scope.mostRecentCPUTimestamp = mostRecent.timestamp;
                 HeatmapService.updateCPU(mostRecent.target_id, mostRecent.temperature, mostRecent.cpu_load);
             }
         }
